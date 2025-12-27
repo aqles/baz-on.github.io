@@ -1,53 +1,88 @@
-# Baz-On Store (Static E-Commerce)
+<div align="center">
+  <img src="logo.svg" alt="Baz-On Logo" width="120" />
 
-Project web e-commerce statik modern dengan fitur checkout via WhatsApp. Dibangun dengan HTML5, CSS3, dan JavaScript murni tanpa framework berat.
+  # Baz-On Store
+  
+  **A Premium Static E-Commerce Experience**
+  
+  [View Demo](https://aqles.github.io/baz-on)
+  
+  ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+  ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+  ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 
-## Fitur Unggulan
+  <img src="images/desktop-preview.png" alt="Desktop Preview" width="800" style="border-radius: 10px; margin: 20px 0;"/>
+</div>
 
-- **Desain Premium**: Tampilan modern dengan tema gelap (Dark Mode style), glassmorphism, dan animasi halus.
-- **Responsif**: Tampilan optimal di desktop, tablet, dan mobile.
-- **Keranjang Belanja**: Menggunakan `localStorage` sehingga data keranjang tidak hilang saat page di-refresh.
-- **WhatsApp Checkout**: Checkout otomatis yang mengarahkan pembeli ke WhatsApp dengan format pesan yang rapi.
-- **Ringan & Cepat**: Tanpa backend complex, load time sangat cepat.
+---
 
-## Cara Menggunakan
+## 🚀 About The Project
 
-1.  Clone repository ini atau download sebagai ZIP.
-2.  Buka file `index.html` di browser Anda.
-3.  Web siap digunakan!
+**Baz-On Store** is a modern, lightweight, and fully responsive static e-commerce website designed to provide a premium shopping experience without the complexity of a backend. It features a sleek glassmorphism design, smooth micro-interactions, and a unique "Checkout via WhatsApp" flow tailored for personalized customer service.
 
-## Kustomisasi
+### ✨ Key Features
 
-### Mengganti Produk
-Buka file `script.js` dan edit array `products`:
+-   **🎨 Premium UI/UX**: Dark mode aesthetic with glassmorphism elements and smooth transitions.
+-   **📱 Fully Responsive**: Optimized for all devices, from desktop monitors to mobile phones.
+-   **🛒 LocalStorage Cart**: Persist shopping cart data across browser sessions.
+-   **💬 WhatsApp Checkout**: Seamlessly generates a formatted order message and redirects to WhatsApp.
+-   **⚡ Blazing Fast**: Pure static HTML/CSS/JS means zero server-side processing latency.
+-   **📄 Informative Pages**: Includes dedicated Terms & Conditions and Contact Us pages.
+
+## 🛠️ Tech Stack
+
+-   **Core**: HTML5, Vanilla CSS3 (Custom Variables), Vanilla JavaScript (ES6+)
+-   **Assets**: FontAwesome 6, Google Fonts (Outfit), Unsplash Images (Mockups)
+-   **Design**: CSS Grid & Flexbox, Glassmorphism effects
+
+## 📦 Installation & Setup
+
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/aqles/baz-on.git
+    ```
+2.  **Navigate to project directory**
+    ```bash
+    cd baz-on
+    ```
+3.  **Run locally**
+    Simply open `index.html` in your preferred web browser. Alternatively, use a live server extension (vs-code) or simple python server:
+    ```bash
+    python -m http.server 8000
+    ```
+
+## 🔧 Customization
+
+### Configuring Products
+Edit `script.js` to modify the `products` array:
 
 ```javascript
 const products = [
     {
         id: 1,
-        name: "Nama Produk",
+        name: "Your Product Name",
         price: 150000,
-        category: "Kategori",
-        image: "URL_GAMBAR",
-        description: "Deskripsi..."
+        category: "Category",
+        image: "images/your-product.png",
+        description: "Product description..."
     },
-    // ...
+    // Add more products...
 ];
 ```
 
-### Mengganti Nomor WhatsApp
-Buka file `script.js` dan ubah konstanta `WHATSAPP_NUMBER`:
+### Setting Admin Number
+Update the `WHATSAPP_NUMBER` constant in `script.js`:
 
 ```javascript
-const WHATSAPP_NUMBER = "628xxxxxxxxxx"; // Gunakan format 62 (kode negara Indonesia)
+const WHATSAPP_NUMBER = "6281234567890"; // Country code (62) + Number
 ```
 
-## Struktur File
+## 📄 License
 
-- `index.html`: Struktur utama halaman web.
-- `style.css`: Styling dan tema visual.
-- `script.js`: Logika aplikasi, data produk, dan fungsi checkout.
+Distributed under the MIT License. See `LICENSE` for more information.
 
-## Author
+---
 
-Dibuat untuk project ednasalam.com
+<div align="center">
+  <p>Created by <a href="https://github.com/aqles">Aqles</a></p>
+</div>

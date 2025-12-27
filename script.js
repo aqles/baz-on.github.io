@@ -5,7 +5,7 @@ const products = [
         name: "Noir Executive Watch",
         price: 1500000,
         category: "Accessories",
-        image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=1000",
+        image: "images/watch.png",
         description: "Jam tangan premium dengan desain minimalis untuk eksekutif muda."
     },
     {
@@ -13,7 +13,7 @@ const products = [
         name: "Urban Leather Jacket",
         price: 850000,
         category: "Fashion",
-        image: "https://images.unsplash.com/photo-1551028919-ac66e624ec06?auto=format&fit=crop&q=80&w=1000",
+        image: "images/jacket.png",
         description: "Jaket kulit sintetis premium, cocok untuk gaya urban casual."
     },
     {
@@ -21,7 +21,7 @@ const products = [
         name: "Midnight Sneakers",
         price: 650000,
         category: "Footwear",
-        image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&q=80&w=1000",
+        image: "images/sneakers.png",
         description: "Sneakers hitam elegan dengan kenyamanan maksimal untuk aktivitas harian."
     },
     {
@@ -29,7 +29,7 @@ const products = [
         name: "Heritage Backpack",
         price: 450000,
         category: "Bags",
-        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=1000",
+        image: "images/backpack.png",
         description: "Tas punggung vintage dengan material kanvas tahan air."
     },
     {
@@ -37,7 +37,7 @@ const products = [
         name: "Audio Pro Headset",
         price: 2100000,
         category: "Electronics",
-        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=1000",
+        image: "images/headset.png",
         description: "Headset noise-cancelling dengan kualitas suara studio."
     },
     {
@@ -45,7 +45,7 @@ const products = [
         name: "Slim Fit Chinos",
         price: 350000,
         category: "Fashion",
-        image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&q=80&w=1000",
+        image: "images/chinos.png",
         description: "Celana chinos nyaman dengan potongan slim fit modern."
     }
 ];
