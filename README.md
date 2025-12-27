@@ -50,4 +50,4 @@ const WHATSAPP_NUMBER = "628xxxxxxxxxx"; // Gunakan format 62 (kode negara Indon
 
 ## Author
 
-Dibuat untuk project Baz-On.
+Dibuat untuk project ednasalam.com
