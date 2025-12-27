@@ -48,6 +48,16 @@
                 <h2>Koleksi Terbaru</h2>
                 <div class="divider"></div>
             </div>
+
+            <div class="filter-container">
+                <button class="filter-btn active" data-category="all">Semua</button>
+                <button class="filter-btn" data-category="Fashion">Fashion</button>
+                <button class="filter-btn" data-category="Footwear">Footwear</button>
+                <button class="filter-btn" data-category="Accessories">Accessories</button>
+                <button class="filter-btn" data-category="Electronics">Electronics</button>
+                <button class="filter-btn" data-category="Bags">Bags</button>
+            </div>
+
             <div class="product-grid" id="productGrid">
                 <!-- Products will be injected here by JS -->
             </div>
@@ -93,8 +103,45 @@
                     <span id="cartTotal">Rp 0</span>
                 </div>
                 <button class="btn-checkout" id="checkoutBtn">
-                    <i class="fa-brands fa-whatsapp"></i> Checkout via WhatsApp
+                    Checkout Sekarang
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Form Modal -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Data Pemesanan</h3>
+                <button class="close-modal" id="closeCheckout"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="checkoutForm" onsubmit="event.preventDefault(); processOrder();">
+                    <div class="form-group">
+                        <label for="customerName">Nama Lengkap</label>
+                        <input type="text" id="customerName" required placeholder="Nama Anda">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerPhone">Nomor WhatsApp</label>
+                        <input type="tel" id="customerPhone" required placeholder="08xxxxxxxxxx">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerAddress">Alamat Lengkap</label>
+                        <textarea id="customerAddress" required
+                            placeholder="Jalan, RT/RW, Kelurahan, Kecamatan, Kota, Kode Pos"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentMethod">Metode Pembayaran</label>
+                        <select id="paymentMethod" required>
+                            <option value="Transfer Bank">Transfer Bank (BCA/Mandiri)</option>
+                            <option value="COD">COD (Bayar di Tempat)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px;">
+                        <i class="fa-brands fa-whatsapp"></i> Kirim Pesan Pemesanan
+                    </button>
+                </form>
             </div>
         </div>
     </div>

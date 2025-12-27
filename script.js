@@ -60,6 +60,10 @@ let cart = JSON.parse(localStorage.getItem('bazon_cart')) || [];
 const productGrid = document.getElementById('productGrid');
 const cartBtn = document.getElementById('cartBtn');
 const cartModal = document.getElementById('cartModal');
+const checkoutModal = document.getElementById('checkoutModal');
+const closeCheckout = document.getElementById('closeCheckout');
+const filterBtns = document.querySelectorAll('.filter-btn');
+
 const closeCart = document.getElementById('closeCart');
 const cartItemsContainer = document.getElementById('cartItems');
 const cartCountElement = document.getElementById('cartCount');
@@ -76,8 +80,12 @@ const formatPrice = (price) => {
 };
 
 // Render Functions
-function renderProducts() {
-    productGrid.innerHTML = products.map(product => `
+function renderProducts(category = 'all') {
+    const filteredProducts = category === 'all'
+        ? products
+        : products.filter(p => p.category === category);
+
+    productGrid.innerHTML = filteredProducts.map(product => `
         <div class="product-card">
             <div class="product-image-container">
                 <img src="${product.image}" alt="${product.name}" class="product-image">
@@ -182,13 +190,22 @@ function saveCart() {
     localStorage.setItem('bazon_cart', JSON.stringify(cart));
 }
 
-function handleCheckout() {
+function openCheckoutModal() {
     if (cart.length === 0) {
         alert('Keranjang belanja Anda masih kosong!');
         return;
     }
+    cartModal.classList.remove('active'); // Close cart modal
+    checkoutModal.classList.add('active'); // Open checkout modal
+}
 
-    const br = '%0A'; // New line for URL encoding
+window.processOrder = () => {
+    const name = document.getElementById('customerName').value;
+    const phone = document.getElementById('customerPhone').value;
+    const address = document.getElementById('customerAddress').value;
+    const payment = document.getElementById('paymentMethod').value;
+
+    const br = '%0A';
     let message = `Halo Admin, saya ingin memesan:${br}${br}`;
     let total = 0;
 
@@ -200,12 +217,23 @@ function handleCheckout() {
         message += `${index + 1}. ${product.name} (x${item.quantity}) - ${formatPrice(itemTotal)}${br}`;
     });
 
-    message += `${br}Total: *${formatPrice(total)}*${br}`;
-    message += `${br}Mohon info selanjutnya untuk pembayaran dan pengiriman. Terima kasih!`;
+    message += `${br}Total: *${formatPrice(total)}*${br}${br}`;
+    message += `📋 Data Pemesan:${br}`;
+    message += `Nama: ${name}${br}`;
+    message += `No. HP: ${phone}${br}`;
+    message += `Alamat: ${address}${br}`;
+    message += `Pembayaran: ${payment}${br}`;
+    message += `${br}Mohon diproses. Terima kasih!`;
 
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
     window.open(whatsappUrl, '_blank');
-}
+
+    // Optional: Clear cart after checkout
+    // cart = [];
+    // saveCart();
+    // renderCart();
+    // checkoutModal.classList.remove('active');
+};
 
 // Event Listeners
 cartBtn.addEventListener('click', () => {
@@ -222,7 +250,31 @@ cartModal.addEventListener('click', (e) => {
     }
 });
 
-checkoutBtn.addEventListener('click', handleCheckout);
+checkoutBtn.addEventListener('click', openCheckoutModal);
+
+closeCheckout.addEventListener('click', () => {
+    checkoutModal.classList.remove('active');
+});
+
+checkoutModal.addEventListener('click', (e) => {
+    if (e.target === checkoutModal) {
+        checkoutModal.classList.remove('active');
+    }
+});
+
+// Filter Listeners
+filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Remove active class from all
+        filterBtns.forEach(b => b.classList.remove('active'));
+        // Add active to clicked
+        btn.classList.add('active');
+
+        // Filter
+        const category = btn.dataset.category;
+        renderProducts(category);
+    });
+});
 
 // Initial Render
 document.addEventListener('DOMContentLoaded', () => {
