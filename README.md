@@ -3,7 +3,7 @@
 
   # Baz-On Store
   
-  **A Premium Static E-Commerce Experience**
+  **Premium Static E-Commerce Template**
   
   [View Demo](https://aqles.github.io/baz-on)
   
@@ -16,70 +16,50 @@
 
 ---
 
-## 🚀 About The Project
+## About The Project
 
-**Baz-On Store** is a modern, lightweight, and fully responsive static e-commerce website designed to provide a premium shopping experience without the complexity of a backend. It features a sleek glassmorphism design, smooth micro-interactions, and a unique "Checkout via WhatsApp" flow tailored for personalized customer service.
+Baz-On Store is a static e-commerce website designed to provide a seamless shopping experience without the need for a complex backend. The project focuses on a modern interface using glassmorphism design principles and ensures full responsiveness across all devices.
 
-### ✨ Key Features
+One of the key features is the "Checkout via WhatsApp" flow. Instead of processing payments through a gateway, the application generates a pre-formatted order summary and redirects the customer to WhatsApp, effectively bridging the gap between digital browsing and personalized service.
 
--   **🎨 Premium UI/UX**: Dark mode aesthetic with glassmorphism elements and smooth transitions.
--   **📱 Fully Responsive**: Optimized for all devices, from desktop monitors to mobile phones.
--   **🛒 LocalStorage Cart**: Persist shopping cart data across browser sessions.
--   **💬 WhatsApp Checkout**: Seamlessly generates a formatted order message and redirects to WhatsApp.
--   **⚡ Blazing Fast**: Pure static HTML/CSS/JS means zero server-side processing latency.
--   **📄 Informative Pages**: Includes dedicated Terms & Conditions and Contact Us pages.
+### Key Features
 
-## 🛠️ Tech Stack
+*   **Modern UI/UX**: Designed with a dark mode aesthetic, featuring glassmorphism elements and smooth interactions.
+*   **Responsive Design**: Layouts adapt fluidly from desktop screens to mobile devices.
+*   **Persistent Cart**: Shopping cart data is saved to LocalStorage, allowing users to return without losing their items.
+*   **WhatsApp Integration**: Automated order generation creates a direct communication channel for checkout.
+*   **Performance**: Built as a pure static site for maximum speed and minimal latency.
 
--   **Core**: HTML5, Vanilla CSS3 (Custom Variables), Vanilla JavaScript (ES6+)
--   **Assets**: FontAwesome 6, Google Fonts (Outfit), Unsplash Images (Mockups)
--   **Design**: CSS Grid & Flexbox, Glassmorphism effects
+## Tech Stack
 
-## 📦 Installation & Setup
+The project relies on standard web technologies without heavy frameworks:
+*   HTML5 for structure
+*   Vanilla CSS3 (using Custom Variables for theming)
+*   Vanilla JavaScript (ES6+) for logic
+*   FontAwesome and Google Fonts for assets
+
+## Installation & Setup
+
+To run this project on your local machine:
 
 1.  **Clone the repository**
     ```bash
     git clone https://github.com/aqles/baz-on.git
     ```
-2.  **Navigate to project directory**
-    ```bash
-    cd baz-on
-    ```
-3.  **Run locally**
-    Simply open `index.html` in your preferred web browser. Alternatively, use a live server extension (vs-code) or simple python server:
-    ```bash
-    python -m http.server 8000
-    ```
+2.  **Open the project**
+    Simply navigate to the project folder and open `index.html` in your web browser. For a better development experience, you can use a local server (like Live Server in VS Code or Python's http.server).
 
-## 🔧 Customization
+## Customization
 
 ### Configuring Products
-Edit `script.js` to modify the `products` array:
-
-```javascript
-const products = [
-    {
-        id: 1,
-        name: "Your Product Name",
-        price: 150000,
-        category: "Category",
-        image: "images/your-product.png",
-        description: "Product description..."
-    },
-    // Add more products...
-];
-```
+You can manage the product catalog by editing the `products` array in the `script.js` file. Each object represents a product with its details and image path.
 
 ### Setting Admin Number
-Update the `WHATSAPP_NUMBER` constant in `script.js`:
+To receive orders on a specific WhatsApp number, update the `WHATSAPP_NUMBER` constant in `script.js`. Ensure the number uses the international format (e.g., 628...).
 
-```javascript
-const WHATSAPP_NUMBER = "6281234567890"; // Country code (62) + Number
-```
+## License
 
-## 📄 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. Please see the `LICENSE` file for more information.
 
 ---
 
