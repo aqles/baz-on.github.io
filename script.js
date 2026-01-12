@@ -1,3 +1,31 @@
+// Hero Slides Data
+const heroSlides = [
+    {
+        id: 1,
+        title: 'Temukan Gaya <span class="gradient-text">Premium</span> Anda',
+        description: 'Koleksi eksklusif dengan kualitas terbaik untuk menunjang penampilan Anda.',
+        image: 'images/jacket.png', // Using existing product image as hero
+        cta: 'Belanja Sekarang',
+        link: '#products'
+    },
+    {
+        id: 2,
+        title: 'Koleksi <span class="gradient-text">Jam Tangan</span> Mewah',
+        description: 'Tampil lebih percaya diri dengan aksesoris pilihan yang elegan.',
+        image: 'images/watch.png',
+        cta: 'Lihat Koleksi',
+        link: '#products'
+    },
+    {
+        id: 3,
+        title: 'Sneakers <span class="gradient-text">Terpopuler</span> Bulan Ini',
+        description: 'Kenyamanan maksimal untuk setiap langkah Anda. Dapatkan sekarang!',
+        image: 'images/sneakers.png',
+        cta: 'Beli Sekarang',
+        link: '#products'
+    }
+];
+
 // Product Data
 const products = [
     {
@@ -276,8 +304,101 @@ filterBtns.forEach(btn => {
     });
 });
 
+// Slider Logic
+let currentSlide = 0;
+let slideInterval;
+
+function initSlider() {
+    const sliderWrapper = document.getElementById('sliderWrapper');
+    const sliderDots = document.getElementById('sliderDots');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    if (!sliderWrapper) return; // Guard clause
+
+    // Render Slides
+    sliderWrapper.innerHTML = heroSlides.map((slide, index) => `
+        <div class="slide ${index === 0 ? 'active' : ''}" style="min-width: 100%;">
+            <div class="slide-content">
+                <div class="slide-text">
+                    <h1>${slide.title}</h1>
+                    <p>${slide.description}</p>
+                    <a href="${slide.link}" class="btn-primary">${slide.cta}</a>
+                </div>
+                <div class="slide-image-wrapper">
+                    <img src="${slide.image}" alt="Slide Image" class="slide-image">
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    // Render Dots
+    sliderDots.innerHTML = heroSlides.map((_, index) => `
+        <div class="dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></div>
+    `).join('');
+
+    // Event Listeners
+    prevBtn.addEventListener('click', () => {
+        prevSlide();
+        resetAutoPlay();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        nextSlide();
+        resetAutoPlay();
+    });
+
+    // Start AutoPlay
+    startAutoPlay();
+}
+
+function updateSlider() {
+    const sliderWrapper = document.getElementById('sliderWrapper');
+    const dots = document.querySelectorAll('.dot');
+    const slides = document.querySelectorAll('.slide');
+
+    // Update Slider Position
+    sliderWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+    // Update Dots
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+    });
+
+    // Update Active Class for Animations
+    slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentSlide);
+    });
+}
+
+window.goToSlide = (index) => {
+    currentSlide = index;
+    updateSlider();
+    resetAutoPlay();
+};
+
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % heroSlides.length;
+    updateSlider();
+}
+
+function prevSlide() {
+    currentSlide = (currentSlide - 1 + heroSlides.length) % heroSlides.length;
+    updateSlider();
+}
+
+function startAutoPlay() {
+    slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+}
+
+function resetAutoPlay() {
+    clearInterval(slideInterval);
+    startAutoPlay();
+}
+
 // Initial Render
 document.addEventListener('DOMContentLoaded', () => {
+    initSlider(); // Initialize Slider
     renderProducts();
     renderCart();
 });
