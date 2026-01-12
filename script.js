@@ -1,109 +1,7 @@
-// Hero Slides Data
-const heroSlides = [
-    {
-        id: 1,
-        title: 'Temukan Gaya <span class="gradient-text">Premium</span> Anda',
-        description: 'Koleksi eksklusif dengan kualitas terbaik untuk menunjang penampilan Anda.',
-        image: 'images/jacket.png', // Using existing product image as hero
-        cta: 'Belanja Sekarang',
-        link: '#products'
-    },
-    {
-        id: 2,
-        title: 'Koleksi <span class="gradient-text">Jam Tangan</span> Mewah',
-        description: 'Tampil lebih percaya diri dengan aksesoris pilihan yang elegan.',
-        image: 'images/watch.png',
-        cta: 'Lihat Koleksi',
-        link: '#products'
-    },
-    {
-        id: 3,
-        title: 'Sneakers <span class="gradient-text">Terpopuler</span> Bulan Ini',
-        description: 'Kenyamanan maksimal untuk setiap langkah Anda. Dapatkan sekarang!',
-        image: 'images/sneakers.png',
-        cta: 'Beli Sekarang',
-        link: '#products'
-    }
-];
-
-// Product Data
-const products = [
-    {
-        id: 1,
-        name: "Noir Executive Watch",
-        price: 1500000,
-        category: "Accessories",
-        image: "images/watch.png",
-        description: "Jam tangan premium dengan desain minimalis untuk eksekutif muda."
-    },
-    {
-        id: 2,
-        name: "Urban Leather Jacket",
-        price: 850000,
-        category: "Fashion",
-        image: "images/jacket.png",
-        description: "Jaket kulit sintetis premium, cocok untuk gaya urban casual."
-    },
-    {
-        id: 3,
-        name: "Midnight Sneakers",
-        price: 650000,
-        category: "Footwear",
-        image: "images/sneakers.png",
-        description: "Sneakers hitam elegan dengan kenyamanan maksimal untuk aktivitas harian."
-    },
-    {
-        id: 4,
-        name: "Heritage Backpack",
-        price: 450000,
-        category: "Bags",
-        image: "images/backpack.png",
-        description: "Tas punggung vintage dengan material kanvas tahan air."
-    },
-    {
-        id: 5,
-        name: "Audio Pro Headset",
-        price: 2100000,
-        category: "Electronics",
-        image: "images/headset.png",
-        description: "Headset noise-cancelling dengan kualitas suara studio."
-    },
-    {
-        id: 6,
-        name: "Slim Fit Chinos",
-        price: 350000,
-        category: "Fashion",
-        image: "images/chinos.png",
-        description: "Celana chinos nyaman dengan potongan slim fit modern."
-    }
-];
-
-const testimonials = [
-    {
-        id: 1,
-        name: "Budi Santoso",
-        role: "Verified Buyer",
-        text: "Kualitas jaketnya luar biasa! Bahannya tebal tapi adem dipakai. Pengiriman juga sangat cepat.",
-        rating: 5,
-        image: "https://ui-avatars.com/api/?name=Budi+Santoso&background=random"
-    },
-    {
-        id: 2,
-        name: "Siti Rahmawati",
-        role: "Fashion Enthusiast",
-        text: "Suka banget sama model jam tangannya. Elegan dan mewah, cocok buat dipakai ke kantor.",
-        rating: 5,
-        image: "https://ui-avatars.com/api/?name=Siti+Rahmawati&background=random"
-    },
-    {
-        id: 3,
-        name: "Andi Pratama",
-        role: "Regular Customer",
-        text: "Sneakers-nya nyaman banget dipakai seharian. Ukurannya pas dan sesuai deskripsi.",
-        rating: 4,
-        image: "https://ui-avatars.com/api/?name=Andi+Pratama&background=random"
-    }
-];
+// Data is imported from data.js
+// - heroSlides
+// - products
+// - testimonials
 
 
 let currentTestimonialSlide = 0;
@@ -216,7 +114,7 @@ const formatPrice = (price) => {
 
 // Render Functions
 function renderProducts(category = 'all', searchTerm = '') {
-    let filteredProducts = products;
+    let filteredProducts = [...products]; // Create copy
 
     // Filter by Category
     if (category === 'favorites') {
@@ -234,10 +132,23 @@ function renderProducts(category = 'all', searchTerm = '') {
         );
     }
 
+    // Sort Products
+    const sortMethod = document.getElementById('sortSelect').value;
+    if (sortMethod === 'price_asc') {
+        filteredProducts.sort((a, b) => a.price - b.price);
+    } else if (sortMethod === 'price_desc') {
+        filteredProducts.sort((a, b) => b.price - a.price);
+    } else if (sortMethod === 'name_asc') {
+        filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
     productGrid.innerHTML = filteredProducts.map(product => {
         const isWishlist = wishlist.includes(product.id);
+        const hasDiscount = product.originalPrice && product.originalPrice > product.price;
+
         return `
         <div class="product-card">
+            ${hasDiscount ? '<div class="sale-badge">SALE</div>' : ''}
             <button class="btn-wishlist ${isWishlist ? 'active' : ''}" onclick="toggleWishlist(${product.id})">
                 <i class="fa-${isWishlist ? 'solid' : 'regular'} fa-heart"></i>
             </button>
@@ -247,7 +158,12 @@ function renderProducts(category = 'all', searchTerm = '') {
             <div class="product-info">
                 <div class="product-category">${product.category}</div>
                 <h3 class="product-title">${product.name}</h3>
-                <p class="product-price">${formatPrice(product.price)}</p>
+                
+                <div class="product-price-container">
+                    ${hasDiscount ? `<div class="original-price">${formatPrice(product.originalPrice)}</div>` : ''}
+                    <div class="current-price ${hasDiscount ? 'discounted' : ''}">${formatPrice(product.price)}</div>
+                </div>
+
                 <button class="btn-add-cart" onclick="addToCart(${product.id})">
                     <i class="fa-solid fa-cart-plus"></i> Tambah ke Keranjang
                 </button>
@@ -259,6 +175,13 @@ function renderProducts(category = 'all', searchTerm = '') {
     `;
     }).join('');
 }
+
+// ... renderCart ...
+
+// Listeners
+document.getElementById('sortSelect').addEventListener('change', () => {
+    renderProducts(activeCategory, searchInput.value);
+});
 
 function renderCart() {
     cartCountElement.textContent = cart.reduce((total, item) => total + item.quantity, 0);

@@ -25,8 +25,11 @@ The core philosophy of this project is **simplicity meets elegance**. It bridges
 ### Key Features
 
 *   **Dynamic Hero Slider**: An engaging, touch-responsive slideshow that highlights featured collections with auto-play and manual navigation.
-*   **Interactive Product Experience**:
-    *   **Quick View Modal**: Detailed product previews without leaving the page.
+*   **Enhanced Shopping Experience**:
+    *   **Product Sorting & Discounts**: Sort products by price/name and view special "Sale" offers.
+    *   **Trust Signals**: Verified badges for Free Shipping, Secure Payment, and more.
+    *   **Dynamic Testimonials**: A responsive customer review slider to build credibility.
+    *   **Quick View Modal**: Detailed product previews with zoom-on-hover logic for desktop.
     *   **Wishlist System**: extensive "Add to Favorites" functionality with instant visual feedback.
     *   **Smart Filtering**: Instant search and category filtering for seamless navigation.
 *   **Modern User Interface**:
@@ -60,8 +63,14 @@ To run this project locally:
 
 ## Customization
 
-### Product Catalog
-Product data is managed clearly within `script.js` in the `products` array. You can easily add, remove, or modify product details, images, and categories.
+### Content Management (New!)
+All website content is now separated into **`data.js`** for easier editing:
+*   **Products**: Add/Remove items in the `products` array.
+*   **Slides**: Edit the `heroSlides` array for banners.
+*   **Testimonials**: Manage reviews in the `testimonials` array.
+
+### Configuration
+*   **WhatsApp Number**: Update the `WHATSAPP_NUMBER` constant in `script.js` to change the destination for orders.
 
 ### Configuration
 *   **WhatsApp Number**: Update the `WHATSAPP_NUMBER` constant in `script.js` to change the recipient for order messages.

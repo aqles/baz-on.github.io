@@ -70,6 +70,14 @@
                 <button class="filter-btn" data-category="Electronics">Electronics</button>
                 <button class="filter-btn" data-category="Bags">Bags</button>
                 <button class="filter-btn" data-category="favorites"><i class="fa-solid fa-heart"></i> Favorit</button>
+
+                <!-- Sort Dropdown -->
+                <select id="sortSelect" class="sort-dropdown">
+                    <option value="default">Relevansi</option>
+                    <option value="price_asc">Harga Terendah</option>
+                    <option value="price_desc">Harga Tertinggi</option>
+                    <option value="name_asc">Nama (A-Z)</option>
+                </select>
             </div>
 
             <div class="product-grid" id="productGrid">
@@ -99,25 +107,81 @@
             <div class="testi-dots" id="testiDots"></div>
         </section>
 
+        </section>
+
+        <!-- Trust Features Section -->
+        <section class="features-section">
+            <div class="feature-card">
+                <i class="fa-solid fa-truck-fast"></i>
+                <div>
+                    <h3>Gratis Ongkir</h3>
+                    <p>Minimal belanja Rp 500rb</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-shield-halved"></i>
+                <div>
+                    <h3>Pembayaran Aman</h3>
+                    <p>Transaksi 100% terproteksi</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-medal"></i>
+                <div>
+                    <h3>Jaminan Kualitas</h3>
+                    <p>Produk original & premium</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-headset"></i>
+                <div>
+                    <h3>Layanan 24/7</h3>
+                    <p>Bantuan kapan saja</p>
+                </div>
+            </div>
+        </section>
+
         <!-- Footer -->
         <footer>
             <div class="footer-content">
                 <div class="footer-brand">
                     <h3>Baz-On</h3>
-                    <p>Experience the future of shopping.</p>
+                    <p>Platform belanja modern dengan pilihan fashion dan gadget premium. Temukan gaya terbaik Anda
+                        bersama kami.</p>
                 </div>
+
                 <div class="footer-links">
+                    <h4>Tautan</h4>
+                    <a href="#products">Produk</a>
                     <a href="terms.html">Syarat & Ketentuan</a>
                     <a href="contact.html">Hubungi Kami</a>
                 </div>
-                <div class="social-links">
-                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
-                    <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+
+                <div class="footer-newsletter">
+                    <h4>Berlangganan</h4>
+                    <p>Dapatkan info promo spesial!</p>
+                    <form id="newsletterForm" class="newsletter-form">
+                        <input type="email" placeholder="Email Anda..." required>
+                        <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+                    </form>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
                 </div>
             </div>
-            <div class="copyright">
-                &copy; 2026 Baz-On Store. All rights reserved.
+
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2026 Baz-On Store. All rights reserved.
+                </div>
+                <div class="payment-icons">
+                    <i class="fa-brands fa-cc-visa"></i>
+                    <i class="fa-brands fa-cc-mastercard"></i>
+                    <i class="fa-brands fa-cc-paypal"></i>
+                    <i class="fa-solid fa-building-columns"></i> <!-- Bank Transfer -->
+                </div>
             </div>
         </footer>
     </div>
@@ -206,6 +270,8 @@
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- Separate Data File -->
+    <script src="data.js"></script>
     <script src="script.js"></script>
 </body>
 
