@@ -4,9 +4,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baz-On Store | Premium E-Commerce</title>
+    </title>
     <meta name="description"
         content="Toko online terpercaya dengan kualitas terbaik. Belanja mudah, checkout via WhatsApp.">
+    <meta name="keywords" content="toko online, fashion pria, jam tangan, sneakers, belanja online, premium store">
+    <meta name="author" content="Baz-On Store">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://aqles.github.io/baz-on/index.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aqles.github.io/baz-on/">
+    <meta property="og:title" content="Baz-On Store | Premium E-Commerce">
+    <meta property="og:description"
+        content="Temukan gaya premium Anda di Baz-On Store. Belanja aman, mudah, dan terpercaya.">
+    <meta property="og:image" content="https://aqles.github.io/baz-on/images/desktop-preview.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://aqles.github.io/baz-on/">
+    <meta property="twitter:title" content="Baz-On Store | Premium E-Commerce">
+    <meta property="twitter:description"
+        content="Temukan gaya premium Anda di Baz-On Store. Belanja aman, mudah, dan terpercaya.">
+    <meta property="twitter:image" content="https://aqles.github.io/baz-on/images/desktop-preview.png">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "OnlineStore",
+        "name": "Baz-On Store",
+        "image": "https://aqles.github.io/baz-on/logo.svg",
+        "description": "Toko online terpercaya dengan kualitas terbaik. Belanja mudah, checkout via WhatsApp.",
+        "url": "https://aqles.github.io/baz-on/",
+        "telephone": "+6281234567890",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Jl. Digital No. 1",
+            "addressLocality": "Jakarta",
+            "addressCountry": "ID"
+        },
+        "priceRange": "$$"
+    }
+    </script>
+
     <link rel="icon" type="image/svg+xml" href="logo.svg?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,7 +101,7 @@
             <div class="search-container">
                 <div class="search-wrapper">
                     <i class="fa-solid fa-search search-icon"></i>
-                    <input type="text" id="searchInput" placeholder="Cari produk...">
+                    <input type="text" id="searchInput" name="search" placeholder="Cari produk...">
                 </div>
             </div>
 
@@ -72,7 +115,7 @@
                 <button class="filter-btn" data-category="favorites"><i class="fa-solid fa-heart"></i> Favorit</button>
 
                 <!-- Sort Dropdown -->
-                <select id="sortSelect" class="sort-dropdown">
+                <select id="sortSelect" name="sort" class="sort-dropdown">
                     <option value="default">Relevansi</option>
                     <option value="price_asc">Harga Terendah</option>
                     <option value="price_desc">Harga Tertinggi</option>
@@ -161,8 +204,10 @@
                     <h4>Berlangganan</h4>
                     <p>Dapatkan info promo spesial!</p>
                     <form id="newsletterForm" class="newsletter-form">
-                        <input type="email" placeholder="Email Anda..." required>
-                        <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+                        <input type="email" id="newsletterEmail" name="email" placeholder="Email Anda..." required
+                            aria-label="Alamat Email Newsletter">
+                        <button type="submit" aria-label="Kirim Newsletter"><i
+                                class="fa-solid fa-paper-plane"></i></button>
                     </form>
                     <div class="social-links">
                         <a href="#"><i class="fa-brands fa-instagram"></i></a>
@@ -202,6 +247,18 @@
                     <button class="btn-add-cart" id="modalAddToCartBtn" style="width: 100%; margin-top: 20px;">
                         <i class="fa-solid fa-cart-plus"></i> Tambah ke Keranjang
                     </button>
+
+                    <div class="product-share">
+                        <span>Bagikan:</span>
+                        <div class="share-icons">
+                            <button class="share-btn whatsapp" id="shareWa" title="Share ke WhatsApp"><i
+                                    class="fa-brands fa-whatsapp"></i></button>
+                            <button class="share-btn twitter" id="shareTw" title="Share ke Twitter"><i
+                                    class="fa-brands fa-twitter"></i></button>
+                            <button class="share-btn copy" id="shareCopy" title="Salin Link"><i
+                                    class="fa-solid fa-link"></i></button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -241,20 +298,20 @@
                 <form id="checkoutForm" onsubmit="event.preventDefault(); processOrder();">
                     <div class="form-group">
                         <label for="customerName">Nama Lengkap</label>
-                        <input type="text" id="customerName" required placeholder="Nama Anda">
+                        <input type="text" id="customerName" name="customerName" required placeholder="Nama Anda">
                     </div>
                     <div class="form-group">
                         <label for="customerPhone">Nomor WhatsApp</label>
-                        <input type="tel" id="customerPhone" required placeholder="08xxxxxxxxxx">
+                        <input type="tel" id="customerPhone" name="customerPhone" required placeholder="08xxxxxxxxxx">
                     </div>
                     <div class="form-group">
                         <label for="customerAddress">Alamat Lengkap</label>
-                        <textarea id="customerAddress" required
+                        <textarea id="customerAddress" name="customerAddress" required
                             placeholder="Jalan, RT/RW, Kelurahan, Kecamatan, Kota, Kode Pos"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="paymentMethod">Metode Pembayaran</label>
-                        <select id="paymentMethod" required>
+                        <select id="paymentMethod" name="paymentMethod" required>
                             <option value="Transfer Bank">Transfer Bank (BCA/Mandiri)</option>
                             <option value="COD">COD (Bayar di Tempat)</option>
                         </select>
@@ -269,6 +326,10 @@
 
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopBtn" title="Kembali ke Atas" aria-label="Kembali ke Atas"><i
+            class="fa-solid fa-arrow-up"></i></button>
 
     <!-- Separate Data File -->
     <script src="data.js"></script>

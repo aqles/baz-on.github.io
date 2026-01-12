@@ -1,25 +1,60 @@
+/* =========================================
+   PANDUAN KUSTOMISASI TEMA (WARNA)
+   Ubah kode warna (Hex Code) di bawah ini untuk mengganti tampilan website.
+   ========================================= */
+
+/* 1. TEMA DEFAULT (DARK MODE) */
 :root {
+    /* Latar Belakang Utama (Warna Gelap) */
     --bg-color: #0f172a;
+
+    /* Warna Kartu / Wadah Konten */
     --card-bg: #1e293b;
+
+    /* Warna Teks Utama (Judul/Highlight) */
     --text-primary: #f8fafc;
+
+    /* Warna Teks Sekunder (Paragraf/Deskripsi) */
     --text-secondary: #94a3b8;
+
+    /* Warna Aksen Utama (Tombol, Link, Ikon) */
     --accent: #38bdf8;
+
+    /* Efek Cahaya / Glow pada Aksen */
     --accent-glow: rgba(56, 189, 248, 0.3);
+
+    /* Gradasi Warna (Untuk Tombol & Teks Spesial) */
     --gradient-start: #38bdf8;
+    /* Warna Awal */
     --gradient-end: #818cf8;
+    /* Warna Akhir */
+
+    /* Garis Batas Tipis antar Elemen */
     --surface-border: rgba(255, 255, 255, 0.1);
+
+    /* Konfigurasi Layout (Jangan Diubah Kecuali Paham) */
     --nav-height: 70px;
     --radius-lg: 16px;
     --radius-md: 12px;
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* 2. TEMA TERANG (LIGHT MODE) */
 [data-theme="light"] {
+    /* Latar Belakang Terang */
     --bg-color: #f8fafc;
+
+    /* Warna Kartu Terang */
     --card-bg: #ffffff;
+
+    /* Teks Gelap untuk Kontras */
     --text-primary: #0f172a;
     --text-secondary: #64748b;
+
+    /* Garis Batas Lebih Gelap */
     --surface-border: rgba(0, 0, 0, 0.1);
+
+    /* Glow Lebih Tipis */
     --accent-glow: rgba(56, 189, 248, 0.15);
 }
 
@@ -402,7 +437,7 @@ body {
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    background: rgba(15, 23, 42, 0.6);
+    background: var(--card-bg);
     backdrop-filter: blur(4px);
     border: 1px solid var(--surface-border);
     color: var(--text-secondary);
@@ -1209,7 +1244,7 @@ footer {
 }
 
 .toast {
-    background: rgba(15, 23, 42, 0.9);
+    background: var(--card-bg);
     backdrop-filter: blur(10px);
     border: 1px solid var(--surface-border);
     border-left: 4px solid var(--accent);
@@ -1444,12 +1479,52 @@ footer {
         padding: 0 10px;
     }
 
+    /* Fix Toast Background */
+    .toast {
+        background: var(--card-bg);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--surface-border);
+        border-left: 4px solid var(--accent);
+        padding: 16px 24px;
+        border-radius: var(--radius-md);
+        color: var(--text-primary);
+        min-width: 300px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transform: translateX(120%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Fix Wishlist Button Background */
+    .product-card .btn-wishlist {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: var(--card-bg);
+        backdrop-filter: blur(4px);
+        border: 1px solid var(--surface-border);
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 5;
+        transition: var(--transition);
+    }
+
+    /* Fix Mobile Testimonial Button Background */
     .testi-btn {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
         z-index: 10;
-        background: rgba(15, 23, 42, 0.8);
+        background: var(--card-bg);
+        border: 1px solid var(--surface-border);
         backdrop-filter: blur(4px);
     }
 
@@ -1576,6 +1651,24 @@ footer {
     margin-bottom: 20px;
 }
 
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.social-links a:hover {
+    color: var(--accent);
+    transform: translateY(-2px);
+}
+
 .newsletter-form {
     display: flex;
     gap: 10px;
@@ -1679,5 +1772,162 @@ footer {
     .footer-bottom {
         flex-direction: column-reverse;
         text-align: center;
+    }
+}
+
+/* Product Share Buttons */
+.product-share {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-top: 20px;
+    border-top: 1px solid var(--surface-border);
+}
+
+.product-share span {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.share-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.share-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid var(--surface-border);
+    background: var(--bg-color);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    color: white;
+    border-color: transparent;
+}
+
+.share-btn.whatsapp:hover {
+    background: #25D366;
+}
+
+.share-btn.twitter:hover {
+    background: #1DA1F2;
+}
+
+.share-btn.copy:hover {
+    background: var(--text-primary);
+}
+
+/* Scroll to Top Button */
+#scrollTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--accent);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px var(--accent-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: var(--transition);
+}
+
+#scrollTopBtn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#scrollTopBtn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--accent-glow);
+}
+
+/* Product Badges */
+/* Product Badges */
+.product-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 5;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.product-badge.best-seller {
+    background: linear-gradient(135deg, #fbbf24, #d97706);
+}
+
+.product-badge.limited {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+}
+
+/* Badge Animation (Alternating) */
+.badge-anim-1 {
+    animation: badgeFade1 6s infinite;
+}
+
+.badge-anim-2 {
+    animation: badgeFade2 6s infinite;
+}
+
+@keyframes badgeFade1 {
+
+    0%,
+    45% {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    50%,
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+@keyframes badgeFade2 {
+
+    0%,
+    45% {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    50%,
+    95% {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 0;
+        visibility: hidden;
     }
 }

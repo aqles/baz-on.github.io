@@ -40,7 +40,8 @@ const products = [
         originalPrice: 2000000,
         category: "Accessories",
         image: "images/watch.png",
-        description: "Jam tangan premium dengan desain minimalis untuk eksekutif muda."
+        description: "Jam tangan premium dengan desain minimalis untuk eksekutif muda.",
+        badge: "best-seller"
     },
     {
         id: 2,
@@ -57,7 +58,8 @@ const products = [
         originalPrice: 850000,
         category: "Footwear",
         image: "images/sneakers.png",
-        description: "Sneakers hitam elegan dengan kenyamanan maksimal untuk aktivitas harian."
+        description: "Sneakers hitam elegan dengan kenyamanan maksimal untuk aktivitas harian.",
+        badge: "limited"
     },
     {
         id: 4,
@@ -74,7 +76,8 @@ const products = [
         originalPrice: 2500000,
         category: "Electronics",
         image: "images/headset.png",
-        description: "Headset noise-cancelling dengan kualitas suara studio."
+        description: "Headset noise-cancelling dengan kualitas suara studio.",
+        badge: "best-seller"
     },
     {
         id: 6,
@@ -94,7 +97,7 @@ const testimonials = [
         role: "Verified Buyer",
         text: "Kualitas jaketnya luar biasa! Bahannya tebal tapi adem dipakai. Pengiriman juga sangat cepat.",
         rating: 5,
-        image: "https://ui-avatars.com/api/?name=Budi+Santoso&background=random"
+        image: "https://api.dicebear.com/9.x/adventurer/svg?seed=Kingston"
     },
     {
         id: 2,
@@ -102,7 +105,7 @@ const testimonials = [
         role: "Fashion Enthusiast",
         text: "Suka banget sama model jam tangannya. Elegan dan mewah, cocok buat dipakai ke kantor.",
         rating: 5,
-        image: "https://ui-avatars.com/api/?name=Siti+Rahmawati&background=random"
+        image: "https://api.dicebear.com/9.x/adventurer/svg?seed=Amaya"
     },
     {
         id: 3,
@@ -110,6 +113,6 @@ const testimonials = [
         role: "Regular Customer",
         text: "Sneakers-nya nyaman banget dipakai seharian. Ukurannya pas dan sesuai deskripsi.",
         rating: 4,
-        image: "https://ui-avatars.com/api/?name=Andi+Pratama&background=random"
+        image: "https://api.dicebear.com/9.x/adventurer/svg?seed=Chase"
     }
 ];

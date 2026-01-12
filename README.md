@@ -32,10 +32,17 @@ The core philosophy of this project is **simplicity meets elegance**. It bridges
     *   **Quick View Modal**: Detailed product previews with zoom-on-hover logic for desktop.
     *   **Wishlist System**: extensive "Add to Favorites" functionality with instant visual feedback.
     *   **Smart Filtering**: Instant search and category filtering for seamless navigation.
+    *   **Product Badges**: "Best Seller" and "Limited Stock" labels to guide user attention.
+    *   **Social Sharing**: Integrated share buttons (WhatsApp, Twitter, Copy Link) in product details.
 *   **Modern User Interface**:
     *   **Glassmorphism Design**: Sleek, translucent elements that provide depth and hierarchy.
     *   **Toast Notifications**: Non-intrusive, animated alerts for user actions (e.g., "Added to Cart").
+    *   **Scroll to Top**: Handy button for quick navigation on long pages.
+    *   **Theme Customization**: Easy-to-edit CSS variables for Dark/Light mode.
     *   **Dark Mode Aesthetic**: A carefully curated color palette optimized for visual comfort and luxury appeal.
+*   **SEO & Performance**:
+    *   **SEO Optimized**: Includes Sitemap, Robots.txt, Meta Tags, and JSON-LD Structured Data.
+    *   **Accessibility**: Full ARIA support for better screen reader compatibility.
 *   **Seamless Checkout**:
     *   **Persistent Cart**: LocalStorage integration ensures shopping carts are saved between sessions.
     *   **WhatsApp Integration**: Automatically generates a detailed order summary and redirects to WhatsApp for payment processing.
@@ -65,16 +72,13 @@ To run this project locally:
 
 ### Content Management (New!)
 All website content is now separated into **`data.js`** for easier editing:
-*   **Products**: Add/Remove items in the `products` array.
+*   **Products**: Add/Remove items in the `products` array. Add `badge: 'best-seller'` or `'limited'` for special labels.
 *   **Slides**: Edit the `heroSlides` array for banners.
 *   **Testimonials**: Manage reviews in the `testimonials` array.
 
 ### Configuration
 *   **WhatsApp Number**: Update the `WHATSAPP_NUMBER` constant in `script.js` to change the destination for orders.
-
-### Configuration
-*   **WhatsApp Number**: Update the `WHATSAPP_NUMBER` constant in `script.js` to change the recipient for order messages.
-*   **Slide Data**: Modify the `heroSlides` array in `script.js` to update the homepage banner content.
+*   **Theme Colors**: Edit CSS Variables in `style.css` (Top Section) to change the color scheme.
 
 ## License
 

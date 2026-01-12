@@ -145,10 +145,27 @@ function renderProducts(category = 'all', searchTerm = '') {
     productGrid.innerHTML = filteredProducts.map(product => {
         const isWishlist = wishlist.includes(product.id);
         const hasDiscount = product.originalPrice && product.originalPrice > product.price;
+        const hasBadge = !!product.badge;
+
+        let badgeHtml = '';
+
+        // Badge Logic: Alternating if both exist, Static if only one
+        if (hasDiscount && hasBadge) {
+            const badgeLabel = product.badge === 'best-seller' ? 'Best Seller' : 'Stok Terbatas';
+            badgeHtml = `
+                <div class="sale-badge badge-anim-1">SALE</div>
+                <div class="product-badge ${product.badge} badge-anim-2">${badgeLabel}</div>
+             `;
+        } else if (hasDiscount) {
+            badgeHtml = '<div class="sale-badge">SALE</div>';
+        } else if (hasBadge) {
+            const badgeLabel = product.badge === 'best-seller' ? 'Best Seller' : 'Stok Terbatas';
+            badgeHtml = `<div class="product-badge ${product.badge}">${badgeLabel}</div>`;
+        }
 
         return `
         <div class="product-card">
-            ${hasDiscount ? '<div class="sale-badge">SALE</div>' : ''}
+            ${badgeHtml}
             <button class="btn-wishlist ${isWishlist ? 'active' : ''}" onclick="toggleWishlist(${product.id})">
                 <i class="fa-${isWishlist ? 'solid' : 'regular'} fa-heart"></i>
             </button>
@@ -394,6 +411,24 @@ window.openProductModal = (id) => {
         productModal.classList.remove('active');
     };
 
+    // Share Logic
+    const shareText = `Cek produk keren ini: ${product.name} - ${formatPrice(product.price)} di Baz-On Store!`;
+    const shareUrl = window.location.href.split('#')[0]; // Clean URL
+
+    document.getElementById('shareWa').onclick = () => {
+        window.open(`https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`, '_blank');
+    };
+
+    document.getElementById('shareTw').onclick = () => {
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`, '_blank');
+    };
+
+    document.getElementById('shareCopy').onclick = () => {
+        navigator.clipboard.writeText(`${shareText} ${shareUrl}`).then(() => {
+            showToast('Link berhasil disalin!', 'success');
+        });
+    };
+
     productModal.classList.add('active');
 };
 
@@ -567,3 +602,21 @@ function updateThemeIcon(icon, theme) {
         icon.className = 'fa-solid fa-moon';
     }
 }
+
+// Scroll to Top Logic
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+        scrollTopBtn.classList.add('show');
+    } else {
+        scrollTopBtn.classList.remove('show');
+    }
+});
+
+scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
