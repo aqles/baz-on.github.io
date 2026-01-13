@@ -2013,8 +2013,422 @@ footer {
         visibility: visible;
     }
 
+}
+
+@media (max-width: 768px) {
+    .features-section {
+        grid-template-columns: 1fr 1fr;
+        /* 2x2 Grid */
+        gap: 15px;
+        padding: 40px 20px;
+    }
+
+    .feature-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .feature-card i {
+        font-size: 1.8rem;
+    }
+
+    .feature-card h3 {
+        font-size: 0.9rem;
+    }
+
+    .feature-card p {
+        font-size: 0.75rem;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .footer-links {
+        align-items: center;
+    }
+
+    .footer-bottom {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+}
+
+/* Product Share Buttons */
+.product-share {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-top: 20px;
+    border-top: 1px solid var(--surface-border);
+}
+
+.product-share span {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.share-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.share-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid var(--surface-border);
+    background: var(--bg-color);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    color: white;
+    border-color: transparent;
+}
+
+.share-btn.whatsapp:hover {
+    background: #25D366;
+}
+
+.share-btn.twitter:hover {
+    background: #1DA1F2;
+}
+
+.share-btn.copy:hover {
+    background: var(--text-primary);
+}
+
+/* Scroll to Top Button */
+#scrollTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--accent);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px var(--accent-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: var(--transition);
+}
+
+#scrollTopBtn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#scrollTopBtn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--accent-glow);
+}
+
+/* Product Badges */
+/* Product Badges */
+.product-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 5;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.product-badge.best-seller {
+    background: linear-gradient(135deg, #fbbf24, #d97706);
+}
+
+.product-badge.limited {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+}
+
+/* Badge Animation (Alternating) */
+.badge-anim-1 {
+    animation: badgeFade1 6s infinite;
+}
+
+.badge-anim-2 {
+    animation: badgeFade2 6s infinite;
+}
+
+@keyframes badgeFade1 {
+
+    0%,
+    45% {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    50%,
     100% {
         opacity: 0;
         visibility: hidden;
+    }
+}
+
+@keyframes badgeFade2 {
+
+    0%,
+    45% {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    50%,
+    95% {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* --- Flash Sale Section --- */
+.flash-sale-section {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: white;
+    padding: 1.5rem 5%;
+    /* Reduced padding */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1.5rem 0;
+    /* Reduced margin */
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
+}
+
+.flash-sale-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -20%;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(45deg,
+            rgba(255, 255, 255, 0.05),
+            rgba(255, 255, 255, 0.05) 10px,
+            transparent 10px,
+            transparent 20px);
+    animation: shine 20s linear infinite;
+}
+
+@keyframes shine {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-50px);
+    }
+}
+
+.flash-sale-content {
+    flex: 1;
+    z-index: 2;
+    max-width: 550px;
+    /* Reduced max-width */
+}
+
+.flash-label {
+    background: rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    /* Reduced padding */
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    /* Reduced font size */
+    margin-bottom: 0.8rem;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.flash-label i {
+    color: #ffd700;
+    margin-right: 5px;
+}
+
+.flash-sale-section h2 {
+    font-size: 2rem;
+    /* Reduced from 2.5rem */
+    margin-bottom: 0.8rem;
+    line-height: 1.2;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.flash-sale-section p {
+    font-size: 1rem;
+    /* Reduced from 1.1rem */
+    margin-bottom: 1.2rem;
+    opacity: 0.9;
+}
+
+.countdown-timer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Reduced gap */
+    margin-bottom: 1.5rem;
+}
+
+.timer-box {
+    background: white;
+    color: #ff4b2b;
+    padding: 8px;
+    /* Reduced padding */
+    border-radius: 6px;
+    text-align: center;
+    min-width: 60px;
+    /* Reduced min-width */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.timer-box span {
+    font-family: 'Courier New', monospace;
+    font-size: 1.5rem;
+    /* Reduced from 2rem */
+    font-weight: bold;
+    line-height: 1;
+}
+
+.timer-box small {
+    font-size: 0.6rem;
+    /* Reduced size */
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 2px;
+    color: #333;
+}
+
+.timer-colon {
+    font-size: 1.5rem;
+    /* Reduced from 2rem */
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.8);
+    padding-bottom: 1.2rem;
+    /* Adjusted align */
+}
+
+.btn-flash {
+    background: white;
+    color: #ff4b2b;
+    border: none;
+    padding: 0.8rem 2rem;
+    /* Reduced padding */
+    font-size: 1rem;
+    /* Reduced size */
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-flash:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    /* Ensure it stays white */
+}
+
+.flash-sale-image {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    z-index: 2;
+    max-width: 400px;
+    /* Added constraint */
+    display: block;
+    /* ensure visibility if file exists */
+}
+
+.flash-sale-image img {
+    max-width: 100%;
+    height: auto;
+    /* Ensure aspect ratio */
+    max-height: 250px;
+    /* Limit height */
+    object-fit: contain;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(1deg);
+    }
+
+    /* Reduced animation movement */
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
+/* Responsive Flash Sale */
+@media (max-width: 900px) {
+    .flash-sale-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .flash-sale-content {
+        margin-bottom: 2rem;
+        width: 100%;
+    }
+
+    .countdown-timer {
+        justify-content: center;
+    }
+
+    .flash-sale-image {
+        display: none;
+        /* Hide image on mobile for simpler layout */
+    }
+
+    .flash-sale-section h2 {
+        font-size: 2rem;
     }
 }

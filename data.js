@@ -116,3 +116,22 @@ const testimonials = [
         image: "https://api.dicebear.com/9.x/adventurer/svg?seed=Chase"
     }
 ];
+// 4. KONFIGURASI UMUM
+const config = {
+    whatsappNumber: "6281234567890", // Ganti dengan nomor WhatsApp admin (format 62...)
+    flashSaleDurationHours: 24, // Durasi flash sale dalam jam
+    coupons: [
+        {
+            code: 'BAZON10',
+            type: 'percent',
+            value: 10,
+            description: 'Diskon 10%'
+        },
+        {
+            code: 'HEMAT50',
+            type: 'fixed',
+            value: 50000,
+            description: 'Potongan Rp 50.000'
+        }
+    ]
+};

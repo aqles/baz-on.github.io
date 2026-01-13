@@ -31,6 +31,8 @@ The core philosophy of this project is **simplicity meets elegance**. It bridges
     *   **Dynamic Testimonials**: A responsive customer review slider to build credibility.
     *   **Quick View Modal**: Detailed product previews with zoom-on-hover logic for desktop.
     *   **Wishlist System**: extensive "Add to Favorites" functionality with instant visual feedback.
+    *   **Coupon System**: Apply discount codes (percentage or fixed amount) at checkout.
+    *   **Flash Sale Countdown**: Urgency-inducing countdown timer for special promotions.
     *   **Smart Filtering**: Instant search and category filtering for seamless navigation.
     *   **Product Badges**: "Best Seller" and "Limited Stock" labels to guide user attention.
     *   **Social Sharing**: Integrated share buttons (WhatsApp, Twitter, Copy Link) in product details.
@@ -77,7 +79,10 @@ All website content is now separated into **`data.js`** for easier editing:
 *   **Testimonials**: Manage reviews in the `testimonials` array.
 
 ### Configuration
-*   **WhatsApp Number**: Update the `WHATSAPP_NUMBER` constant in `script.js` to change the destination for orders.
+Everything is now centralized in the `config` object within **`data.js`**:
+*   **WhatsApp Number**: Change the `whatsappNumber` field.
+*   **Flash Sale**: Adjust `flashSaleDurationHours`.
+*   **Coupons**: Add or edit codes in the `coupons` array (supports `type: 'percent'` or `'fixed'`).
 *   **Theme Colors**: Edit CSS Variables in `style.css` (Top Section) to change the color scheme.
 
 ## License

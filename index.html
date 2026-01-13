@@ -91,6 +91,40 @@
             <div class="slider-dots" id="sliderDots"></div>
         </header>
 
+        <!-- Flash Sale Section -->
+        <section class="flash-sale-section" id="flashSale">
+            <div class="flash-sale-content">
+                <div class="flash-label">
+                    <i class="fa-solid fa-bolt"></i> FLASH SALE
+                </div>
+                <h2>Diskon Gila-Gilaan Hingga 70%</h2>
+                <p>Berakhir dalam:</p>
+                <div class="countdown-timer">
+                    <div class="timer-box">
+                        <span id="timerHours">00</span>
+                        <small>Jam</small>
+                    </div>
+                    <span class="timer-colon">:</span>
+                    <div class="timer-box">
+                        <span id="timerMinutes">00</span>
+                        <small>Menit</small>
+                    </div>
+                    <span class="timer-colon">:</span>
+                    <div class="timer-box">
+                        <span id="timerSeconds">00</span>
+                        <small>Detik</small>
+                    </div>
+                </div>
+                <button class="btn-flash"
+                    onclick="document.getElementById('products').scrollIntoView({behavior: 'smooth'})">
+                    Belanja Sekarang
+                </button>
+            </div>
+            <div class="flash-sale-image">
+                <img src="images/flash-sale.png" alt="Flash Sale" onerror="this.style.display='none'">
+            </div>
+        </section>
+
         <!-- Product Grid -->
         <main id="products" class="products-section">
             <div class="section-header">
@@ -284,7 +318,7 @@
                             class="fa-solid fa-xmark"></i></button>
                 </div>
 
-                <div class="cart-total">
+                <div class="cart-total" id="cartSummary">
                     <span>Total:</span>
                     <span id="cartTotal">Rp 0</span>
                 </div>

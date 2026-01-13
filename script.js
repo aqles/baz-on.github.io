@@ -73,8 +73,7 @@ function updateTestimonialPosition() {
     track.style.transform = `translateX(-${currentTestimonialSlide * cardWidth}%)`;
 }
 
-// Config
-const WHATSAPP_NUMBER = "6281234567890"; // Ganti dengan nomor WhatsApp admin yang benar (format 62...)
+
 
 // State
 let cart = JSON.parse(localStorage.getItem('bazon_cart')) || [];
@@ -102,7 +101,7 @@ const modalAddToCartBtn = document.getElementById('modalAddToCartBtn');
 const closeCart = document.getElementById('closeCart');
 const cartItemsContainer = document.getElementById('cartItems');
 const cartCountElement = document.getElementById('cartCount');
-const cartTotalElement = document.getElementById('cartTotal');
+const cartSummary = document.getElementById('cartSummary');
 const checkoutBtn = document.getElementById('checkoutBtn');
 
 // Coupon Elements
@@ -213,7 +212,10 @@ function renderCart() {
 
     if (cart.length === 0) {
         cartItemsContainer.innerHTML = '<div class="empty-cart-message">Keranjang Anda kosong</div>';
-        cartTotalElement.textContent = formatPrice(0);
+        cartSummary.innerHTML = `
+            <span>Total:</span>
+            <span>${formatPrice(0)}</span>
+        `;
         return;
     }
 
@@ -258,7 +260,7 @@ function renderCart() {
     const grandTotal = total - discountAmount;
 
     // Render HTML for Totals
-    cartTotalElement.parentElement.innerHTML = `
+    cartSummary.innerHTML = `
         <div class="cart-subtotal">
             <span>Subtotal</span>
             <span>${formatPrice(total)}</span>
@@ -434,7 +436,7 @@ window.processOrder = () => {
     message += `Pembayaran: ${payment}${br}`;
     message += `${br}Mohon diproses. Terima kasih!`;
 
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+    const whatsappUrl = `https://wa.me/${config.whatsappNumber}?text=${message}`;
     window.open(whatsappUrl, '_blank');
 
     showToast('Mengarahkan ke WhatsApp...', 'success');
@@ -528,13 +530,12 @@ window.applyCoupon = () => {
         return;
     }
 
-    // Mock Coupon Logic
-    if (code === 'BAZON10') {
-        activeCoupon = { code: 'BAZON10', type: 'percent', value: 10 };
-        showToast('Kupon BAZON10 diterapkan! (Diskon 10%)', 'success');
-    } else if (code === 'HEMAT50') {
-        activeCoupon = { code: 'HEMAT50', type: 'fixed', value: 50000 };
-        showToast('Kupon HEMAT50 diterapkan! (Potongan 50rb)', 'success');
+    // Find coupon in config
+    const coupon = config.coupons.find(c => c.code === code);
+
+    if (coupon) {
+        activeCoupon = coupon;
+        showToast(`Kupon ${coupon.code} diterapkan! (${coupon.description})`, 'success');
     } else {
         showToast('Kode kupon tidak valid!', 'error');
         return;
@@ -668,6 +669,7 @@ function resetAutoPlay() {
 // Initial Render
 document.addEventListener('DOMContentLoaded', () => {
     initSlider(); // Initialize Slider
+    initFlashSale(); // Initialize Flash Sale
     initTheme(); // Initialize Theme
     renderProducts();
     renderCart();
@@ -718,3 +720,49 @@ scrollTopBtn.addEventListener('click', () => {
         behavior: 'smooth'
     });
 });
+
+// Flash Sale Logic
+function initFlashSale() {
+    const hoursElem = document.getElementById('timerHours');
+    const minutesElem = document.getElementById('timerMinutes');
+    const secondsElem = document.getElementById('timerSeconds');
+
+    // If elements don't exist, exit safely
+    if (!hoursElem) return;
+
+    // Set end time to midnight of next day, or a specific duration (e.g., 24 hours from now)
+    let endTime = localStorage.getItem('bazon_flash_end');
+
+    // Reset if not set or already passed
+    if (!endTime || new Date().getTime() > parseInt(endTime)) {
+        // Create new end time (24 hours from now)
+        const date = new Date();
+        date.setHours(date.getHours() + (config.flashSaleDurationHours || 24));
+        endTime = date.getTime();
+        localStorage.setItem('bazon_flash_end', endTime);
+    }
+
+    const updateTimer = () => {
+        const now = new Date().getTime();
+        const distance = endTime - now;
+
+        if (distance < 0) {
+            // Expired
+            if (hoursElem) hoursElem.innerText = "00";
+            if (minutesElem) minutesElem.innerText = "00";
+            if (secondsElem) secondsElem.innerText = "00";
+            return;
+        }
+
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        if (hoursElem) hoursElem.innerText = hours < 10 ? `0${hours}` : hours;
+        if (minutesElem) minutesElem.innerText = minutes < 10 ? `0${minutes}` : minutes;
+        if (secondsElem) secondsElem.innerText = seconds < 10 ? `0${seconds}` : seconds;
+    };
+
+    updateTimer(); // Initial call
+    setInterval(updateTimer, 1000);
+}
