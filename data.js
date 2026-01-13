@@ -41,7 +41,11 @@ const products = [
         category: "Accessories",
         image: "images/watch.png",
         description: "Jam tangan premium dengan desain minimalis untuk eksekutif muda.",
-        badge: "best-seller"
+        badge: "best-seller",
+        rating: 4.8,
+        reviews: 128,
+        stock: 15,
+        specs: ["Material: Stainless Steel", "Water Resistant: 5 ATM", "Movement: Quartz", "Diameter: 42mm"]
     },
     {
         id: 2,
@@ -49,7 +53,11 @@ const products = [
         price: 850000,
         category: "Fashion",
         image: "images/jacket.png",
-        description: "Jaket kulit sintetis premium, cocok untuk gaya urban casual."
+        description: "Jaket kulit sintetis premium, cocok untuk gaya urban casual.",
+        rating: 4.5,
+        reviews: 85,
+        stock: 42,
+        specs: ["Material: Premium Synthetic Leather", "Lining: Cotton", "Fit: Regular", "Pockets: 4"]
     },
     {
         id: 3,
@@ -59,7 +67,11 @@ const products = [
         category: "Footwear",
         image: "images/sneakers.png",
         description: "Sneakers hitam elegan dengan kenyamanan maksimal untuk aktivitas harian.",
-        badge: "limited"
+        badge: "limited",
+        rating: 4.9,
+        reviews: 210,
+        stock: 8,
+        specs: ["Upper: Breathable Mesh", "Sole: Rubber", "Insole: Memory Foam", "Weight: Lightweight"]
     },
     {
         id: 4,
@@ -67,7 +79,11 @@ const products = [
         price: 450000,
         category: "Bags",
         image: "images/backpack.png",
-        description: "Tas punggung vintage dengan material kanvas tahan air."
+        description: "Tas punggung vintage dengan material kanvas tahan air.",
+        rating: 4.6,
+        reviews: 64,
+        stock: 25,
+        specs: ["Material: Waterproof Canvas", "Capacity: 20L", "Laptop Compartment: 15.6 inch", "Waterproof: Yes"]
     },
     {
         id: 5,
@@ -77,7 +93,11 @@ const products = [
         category: "Electronics",
         image: "images/headset.png",
         description: "Headset noise-cancelling dengan kualitas suara studio.",
-        badge: "best-seller"
+        badge: "best-seller",
+        rating: 5.0,
+        reviews: 42,
+        stock: 5,
+        specs: ["Type: Over-Ear", "Connection: Bluetooth 5.2", "Battery: 30 Hours", "ANC: Active Noise Cancellation"]
     },
     {
         id: 6,
@@ -85,7 +105,11 @@ const products = [
         price: 350000,
         category: "Fashion",
         image: "images/chinos.png",
-        description: "Celana chinos nyaman dengan potongan slim fit modern."
+        description: "Celana chinos nyaman dengan potongan slim fit modern.",
+        rating: 4.4,
+        reviews: 150,
+        stock: 100,
+        specs: ["Material: Cotton Twill Stretch", "Fit: Slim Fit", "Waist: Button & Zip", "Care: Machine Wash"]
     }
 ];
 

@@ -29,6 +29,7 @@ The core philosophy of this project is **simplicity meets elegance**. It bridges
     *   **Product Sorting & Discounts**: Sort products by price/name and view special "Sale" offers.
     *   **Trust Signals**: Verified badges for Free Shipping, Secure Payment, and more.
     *   **Dynamic Testimonials**: A responsive customer review slider to build credibility.
+    *   **Detailed Product View**: Comprehensive product modals with star ratings, stock status, and technical specifications.
     *   **Quick View Modal**: Detailed product previews with zoom-on-hover logic for desktop.
     *   **Wishlist System**: extensive "Add to Favorites" functionality with instant visual feedback.
     *   **Coupon System**: Apply discount codes (percentage or fixed amount) at checkout.
@@ -74,7 +75,9 @@ To run this project locally:
 
 ### Content Management (New!)
 All website content is now separated into **`data.js`** for easier editing:
-*   **Products**: Add/Remove items in the `products` array. Add `badge: 'best-seller'` or `'limited'` for special labels.
+*   **Products**: Add/Remove items in the `products` array. 
+    *   New fields supported: `rating` (0-5), `reviews` (count), `stock` (qty), and `specs` (array of strings).
+    *   Add `badge: 'best-seller'` or `'limited'` for special labels.
 *   **Slides**: Edit the `heroSlides` array for banners.
 *   **Testimonials**: Manage reviews in the `testimonials` array.
 

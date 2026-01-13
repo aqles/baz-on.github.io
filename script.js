@@ -474,6 +474,40 @@ window.openProductModal = (id) => {
     modalProductPrice.textContent = formatPrice(product.price);
     modalProductDesc.textContent = product.description;
 
+    // --- New Detail Logic --- 
+
+    // 1. Rating
+    const starCount = Math.round(product.rating || 0);
+    const starHtml = Array(5).fill(0).map((_, i) =>
+        `<i class="fa-${i < starCount ? 'solid' : 'regular'} fa-star"></i>`
+    ).join('');
+
+    document.getElementById('modalProductRating').innerHTML = `
+        ${starHtml}
+        <span>(${product.reviews || 0} Ulasan)</span>
+    `;
+
+    // 2. Stock
+    const stockElem = document.getElementById('modalProductStock');
+    if (product.stock > 0) {
+        stockElem.textContent = `Stok: ${product.stock} Tersedia`;
+        stockElem.classList.remove('low');
+        stockElem.style.display = 'block';
+        if (product.stock < 10) stockElem.classList.add('low');
+    } else {
+        stockElem.textContent = 'Stok Habis';
+        stockElem.classList.add('low');
+    }
+
+    // 3. Specs
+    const specsList = document.getElementById('modalProductSpecs');
+    if (product.specs && product.specs.length > 0) {
+        specsList.innerHTML = product.specs.map(spec => `<li>${spec}</li>`).join('');
+        document.querySelector('.modal-specs-container').style.display = 'block';
+    } else {
+        document.querySelector('.modal-specs-container').style.display = 'none';
+    }
+
     // Update Add to Cart button to add specific product
     modalAddToCartBtn.onclick = () => {
         addToCart(product.id);
