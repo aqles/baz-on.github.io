@@ -79,6 +79,8 @@ const WHATSAPP_NUMBER = "6281234567890"; // Ganti dengan nomor WhatsApp admin ya
 // State
 let cart = JSON.parse(localStorage.getItem('bazon_cart')) || [];
 let wishlist = JSON.parse(localStorage.getItem('bazon_wishlist')) || [];
+let activeCoupon = null; // { code: 'CODE', type: 'percent'|'fixed', value: 10 }
+
 
 // DOM Elements
 const productGrid = document.getElementById('productGrid');
@@ -102,6 +104,12 @@ const cartItemsContainer = document.getElementById('cartItems');
 const cartCountElement = document.getElementById('cartCount');
 const cartTotalElement = document.getElementById('cartTotal');
 const checkoutBtn = document.getElementById('checkoutBtn');
+
+// Coupon Elements
+const couponInput = document.getElementById('couponInput');
+const applyCouponBtn = document.getElementById('applyCouponBtn');
+const removeCouponBtn = document.getElementById('removeCouponBtn');
+
 
 // Helper Functions
 const formatPrice = (price) => {
@@ -234,7 +242,51 @@ function renderCart() {
         `;
     }).join('');
 
-    cartTotalElement.textContent = formatPrice(total);
+    // Calculate Totals
+    let discountAmount = 0;
+    if (activeCoupon) {
+        if (activeCoupon.type === 'percent') {
+            discountAmount = total * (activeCoupon.value / 100);
+        } else if (activeCoupon.type === 'fixed') {
+            discountAmount = activeCoupon.value;
+        }
+    }
+
+    // Ensure discount doesn't exceed total
+    if (discountAmount > total) discountAmount = total;
+
+    const grandTotal = total - discountAmount;
+
+    // Render HTML for Totals
+    cartTotalElement.parentElement.innerHTML = `
+        <div class="cart-subtotal">
+            <span>Subtotal</span>
+            <span>${formatPrice(total)}</span>
+        </div>
+        ${activeCoupon ? `
+        <div class="cart-discount">
+            <span>Diskon (${activeCoupon.code})</span>
+            <span>- ${formatPrice(discountAmount)}</span>
+        </div>
+        ` : ''}
+        <div class="cart-grand-total">
+            <span>Total</span>
+            <span>${formatPrice(grandTotal)}</span>
+        </div>
+    `;
+
+    // Manage Coupon UI State
+    if (activeCoupon) {
+        couponInput.value = activeCoupon.code;
+        couponInput.disabled = true;
+        applyCouponBtn.classList.add('hidden');
+        removeCouponBtn.classList.remove('hidden');
+    } else {
+        couponInput.value = '';
+        couponInput.disabled = false;
+        applyCouponBtn.classList.remove('hidden');
+        removeCouponBtn.classList.add('hidden');
+    }
 }
 
 // Toast Function
@@ -359,7 +411,22 @@ window.processOrder = () => {
         message += `${index + 1}. ${product.name} (x${item.quantity}) - ${formatPrice(itemTotal)}${br}`;
     });
 
-    message += `${br}Total: *${formatPrice(total)}*${br}${br}`;
+    message += `${br}Total: *${formatPrice(total)}*${br}`;
+
+    if (activeCoupon) {
+        let discountAmount = 0;
+        if (activeCoupon.type === 'percent') {
+            discountAmount = total * (activeCoupon.value / 100);
+        } else {
+            discountAmount = activeCoupon.value;
+        }
+        if (discountAmount > total) discountAmount = total;
+
+        message += `Diskon (${activeCoupon.code}): -${formatPrice(discountAmount)}${br}`;
+        message += `*Grand Total: ${formatPrice(total - discountAmount)}*${br}${br}`;
+    } else {
+        message += `${br}`;
+    }
     message += `📋 Data Pemesan:${br}`;
     message += `Nama: ${name}${br}`;
     message += `No. HP: ${phone}${br}`;
@@ -454,7 +521,38 @@ checkoutModal.addEventListener('click', (e) => {
     }
 });
 
-// Filter Listeners
+window.applyCoupon = () => {
+    const code = couponInput.value.trim().toUpperCase();
+    if (!code) {
+        showToast('Masukkan kode kupon!', 'error');
+        return;
+    }
+
+    // Mock Coupon Logic
+    if (code === 'BAZON10') {
+        activeCoupon = { code: 'BAZON10', type: 'percent', value: 10 };
+        showToast('Kupon BAZON10 diterapkan! (Diskon 10%)', 'success');
+    } else if (code === 'HEMAT50') {
+        activeCoupon = { code: 'HEMAT50', type: 'fixed', value: 50000 };
+        showToast('Kupon HEMAT50 diterapkan! (Potongan 50rb)', 'success');
+    } else {
+        showToast('Kode kupon tidak valid!', 'error');
+        return;
+    }
+
+    renderCart();
+};
+
+window.removeCoupon = () => {
+    activeCoupon = null;
+    couponInput.value = '';
+    showToast('Kupon dihapus', 'success');
+    renderCart();
+};
+
+// Coupon Listeners
+applyCouponBtn.addEventListener('click', applyCoupon);
+removeCouponBtn.addEventListener('click', removeCoupon);
 let activeCategory = 'all';
 
 filterBtns.forEach(btn => {
