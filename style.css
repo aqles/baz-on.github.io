@@ -39,7 +39,7 @@
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 2. TEMA TERANG (LIGHT MODE) */
+/* Tema Terang (Light Mode) */
 [data-theme="light"] {
     /* Latar Belakang Terang */
     --bg-color: #f8fafc;
@@ -172,6 +172,26 @@ body {
     align-items: center;
     justify-content: center;
     margin-right: 15px;
+}
+
+#langToggle {
+    background: none;
+    border: 1px solid var(--surface-border);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 20px;
+    transition: var(--transition);
+    margin-right: 15px;
+    width: auto;
+    font-family: 'Outfit', sans-serif;
+}
+
+#langToggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
 }
 
 
@@ -2385,11 +2405,9 @@ footer {
     background: rgba(0, 0, 0, 0.2);
     display: inline-block;
     padding: 0.4rem 0.8rem;
-    /* Reduced padding */
     border-radius: 50px;
     font-weight: bold;
-    font-size: 0.8rem;
-    /* Reduced font size */
+    font-size: 0.6rem;
     margin-bottom: 0.8rem;
     backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.2);

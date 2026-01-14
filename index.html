@@ -85,7 +85,11 @@
                 </div>
                 <div class="nav-icons">
                     <button class="install-btn hidden" id="installBtn" aria-label="Install App">
-                        <i class="fa-solid fa-download"></i> Install
+                        <i class="fa-solid fa-download"></i> <span data-i18n="nav.install">Install</span>
+                    </button>
+                    <!-- Language Toggle -->
+                    <button id="langToggle" aria-label="Toggle Language">
+                        ID
                     </button>
                     <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode">
                         <i class="fa-solid fa-moon"></i>
@@ -115,28 +119,29 @@
         <section class="flash-sale-section" id="flashSale">
             <div class="flash-sale-content">
                 <div class="flash-label">
-                    <i class="fa-solid fa-bolt"></i> FLASH SALE
+                    <i class="fa-solid fa-bolt"></i> <span data-i18n="flash_sale.label">FLASH SALE</span>
                 </div>
-                <h2>Diskon Gila-Gilaan Hingga 70%</h2>
-                <p>Berakhir dalam:</p>
+                <h2 data-i18n="flash_sale.title">Diskon Gila-Gilaan Hingga 70%</h2>
+                <p data-i18n="flash_sale.ends_in">Berakhir dalam:</p>
                 <div class="countdown-timer">
                     <div class="timer-box">
                         <span id="timerHours">00</span>
-                        <small>Jam</small>
+                        <small data-i18n="flash_sale.hours">Jam</small>
                     </div>
                     <span class="timer-colon">:</span>
                     <div class="timer-box">
                         <span id="timerMinutes">00</span>
-                        <small>Menit</small>
+                        <small data-i18n="flash_sale.minutes">Menit</small>
                     </div>
                     <span class="timer-colon">:</span>
                     <div class="timer-box">
                         <span id="timerSeconds">00</span>
-                        <small>Detik</small>
+                        <small data-i18n="flash_sale.seconds">Detik</small>
                     </div>
                 </div>
                 <button class="btn-flash"
-                    onclick="document.getElementById('products').scrollIntoView({behavior: 'smooth'})">
+                    onclick="document.getElementById('products').scrollIntoView({behavior: 'smooth'})"
+                    data-i18n="flash_sale.shop_now">
                     Belanja Sekarang
                 </button>
             </div>
@@ -148,7 +153,7 @@
         <!-- Product Grid -->
         <main id="products" class="products-section">
             <div class="section-header">
-                <h2>Koleksi Terbaru</h2>
+                <h2 data-i18n="products.title">Koleksi Terbaru</h2>
                 <div class="divider"></div>
             </div>
 
@@ -156,22 +161,23 @@
                 <div class="search-container">
                     <div class="search-wrapper">
                         <i class="fa-solid fa-search search-icon"></i>
-                        <input type="text" id="searchInput" name="search" placeholder="Cari produk...">
+                        <input type="text" id="searchInput" name="search" placeholder="Cari produk..."
+                            data-i18n-placeholder="products.search_placeholder">
                     </div>
                 </div>
 
                 <div class="sort-container">
                     <select id="sortSelect" name="sort" class="sort-dropdown">
-                        <option value="default">Relevansi</option>
-                        <option value="price_asc">Harga Terendah</option>
-                        <option value="price_desc">Harga Tertinggi</option>
-                        <option value="name_asc">Nama (A-Z)</option>
+                        <option value="default" data-i18n="products.sort.default">Relevansi</option>
+                        <option value="price_asc" data-i18n="products.sort.price_asc">Harga Terendah</option>
+                        <option value="price_desc" data-i18n="products.sort.price_desc">Harga Tertinggi</option>
+                        <option value="name_asc" data-i18n="products.sort.name_asc">Nama (A-Z)</option>
                     </select>
                 </div>
             </div>
 
             <div class="filter-container">
-                <button class="filter-btn active" data-category="all">Semua</button>
+                <button class="filter-btn active" data-category="all" data-i18n="products.filters.all">Semua</button>
                 <button class="filter-btn" data-category="Fashion">Fashion</button>
                 <button class="filter-btn" data-category="Footwear">Footwear</button>
                 <button class="filter-btn" data-category="Accessories">Accessories</button>
@@ -179,7 +185,8 @@
                 <button class="filter-btn" data-category="Bags">Bags</button>
                 <button class="filter-btn" data-category="Services">Services</button>
                 <button class="filter-btn" data-category="Cakes">Cakes</button>
-                <button class="filter-btn" data-category="favorites"><i class="fa-solid fa-heart"></i> Favorit</button>
+                <button class="filter-btn" data-category="favorites"><i class="fa-solid fa-heart"></i> <span
+                        data-i18n="products.filters.favorites">Favorit</span></button>
             </div>
 
             <div class="product-grid" id="productGrid">
@@ -188,14 +195,14 @@
 
             <div class="load-more-container" id="loadMoreContainer"
                 style="display: none; text-align: center; margin-top: 2rem;">
-                <button id="loadMoreBtn" class="btn-primary">Muat Lebih Banyak</button>
+                <button id="loadMoreBtn" class="btn-primary" data-i18n="products.load_more">Muat Lebih Banyak</button>
             </div>
         </main>
 
         <!-- Testimonials Section -->
         <section id="testimonials" class="testimonials-section">
             <div class="section-header">
-                <h2>Apa Kata Mereka?</h2>
+                <h2 data-i18n="testimonials.title">Apa Kata Mereka?</h2>
                 <div class="divider"></div>
             </div>
 
@@ -221,29 +228,29 @@
             <div class="feature-card">
                 <i class="fa-solid fa-truck-fast"></i>
                 <div>
-                    <h3>Gratis Ongkir</h3>
-                    <p>Minimal belanja Rp 500rb</p>
+                    <h3 data-i18n="features.free_shipping.title">Gratis Ongkir</h3>
+                    <p data-i18n="features.free_shipping.desc">Minimal belanja Rp 500rb</p>
                 </div>
             </div>
             <div class="feature-card">
                 <i class="fa-solid fa-shield-halved"></i>
                 <div>
-                    <h3>Pembayaran Aman</h3>
-                    <p>Transaksi 100% terproteksi</p>
+                    <h3 data-i18n="features.secure_payment.title">Pembayaran Aman</h3>
+                    <p data-i18n="features.secure_payment.desc">Transaksi 100% terproteksi</p>
                 </div>
             </div>
             <div class="feature-card">
                 <i class="fa-solid fa-medal"></i>
                 <div>
-                    <h3>Jaminan Kualitas</h3>
-                    <p>Produk original & premium</p>
+                    <h3 data-i18n="features.quality_guarantee.title">Jaminan Kualitas</h3>
+                    <p data-i18n="features.quality_guarantee.desc">Produk original & premium</p>
                 </div>
             </div>
             <div class="feature-card">
                 <i class="fa-solid fa-headset"></i>
                 <div>
-                    <h3>Layanan 24/7</h3>
-                    <p>Bantuan kapan saja</p>
+                    <h3 data-i18n="features.service_247.title">Layanan 24/7</h3>
+                    <p data-i18n="features.service_247.desc">Bantuan kapan saja</p>
                 </div>
             </div>
         </section>
@@ -255,23 +262,24 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <h3>Baz-On</h3>
-                    <p>Platform belanja modern dengan pilihan fashion dan gadget premium. Temukan gaya terbaik Anda
+                    <p data-i18n="footer.about">Platform belanja modern dengan pilihan fashion dan gadget premium.
+                        Temukan gaya terbaik Anda
                         bersama kami.</p>
                 </div>
 
                 <div class="footer-links">
-                    <h4>Tautan</h4>
-                    <a href="#products">Produk</a>
-                    <a href="terms.html">Syarat & Ketentuan</a>
-                    <a href="contact.html">Hubungi Kami</a>
+                    <h4 data-i18n="footer.links_title">Tautan</h4>
+                    <a href="#products" data-i18n="footer.links.products">Produk</a>
+                    <a href="terms.html" data-i18n="footer.links.terms">Syarat & Ketentuan</a>
+                    <a href="contact.html" data-i18n="footer.links.contact">Hubungi Kami</a>
                 </div>
 
                 <div class="footer-newsletter">
-                    <h4>Berlangganan</h4>
-                    <p>Dapatkan info promo spesial!</p>
+                    <h4 data-i18n="footer.newsletter_title">Berlangganan</h4>
+                    <p data-i18n="footer.newsletter_desc">Dapatkan info promo spesial!</p>
                     <form id="newsletterForm" class="newsletter-form">
                         <input type="email" id="newsletterEmail" name="email" placeholder="Email Anda..." required
-                            aria-label="Alamat Email Newsletter">
+                            aria-label="Alamat Email Newsletter" data-i18n-placeholder="footer.email_placeholder">
                         <button type="submit" aria-label="Kirim Newsletter"><i
                                 class="fa-solid fa-paper-plane"></i></button>
                     </form>
@@ -285,11 +293,11 @@
 
             <div class="footer-bottom">
                 <div class="footer-bottom-content">
-                    <p class="copyright">&copy; 2026 Baz-On Store. All rights reserved.</p>
+                    <p class="copyright" data-i18n="footer.copyright">&copy; 2026 Baz-On Store. All rights reserved.</p>
                     <div class="divider-vertical"></div>
                     <p class="credit">
-                        Made with <i class="fa-solid fa-heart heart-icon"></i> by <a href="https://ednasalam.com"
-                            target="_blank" class="credit-link">ednasalam.com</a>
+                        <span data-i18n="footer.made_with">Made with</span> <i class="fa-solid fa-heart heart-icon"></i>
+                        by <a href="https://ednasalam.com" target="_blank" class="credit-link">ednasalam.com</a>
                     </p>
                 </div>
                 <div class="payment-icons">
@@ -318,7 +326,7 @@
                         <div class="modal-rating" id="modalProductRating">
                             <!-- Stars Injected via JS -->
                         </div>
-                        <span class="modal-stock" id="modalProductStock">Stok: -</span>
+                        <span class="modal-stock" id="modalProductStock" data-i18n="modal.stock">Stok: -</span>
                     </div>
 
                     <p class="modal-price" id="modalProductPrice">So, 0</p>
@@ -330,17 +338,18 @@
                     </div>
 
                     <div class="modal-specs-container">
-                        <h4>Spesifikasi:</h4>
+                        <h4 data-i18n="modal.specs">Spesifikasi:</h4>
                         <ul class="modal-specs-list" id="modalProductSpecs">
                             <!-- Specs injected via JS -->
                         </ul>
                     </div>
                     <button class="btn-add-cart" id="modalAddToCartBtn" style="width: 100%; margin-top: 20px;">
-                        <i class="fa-solid fa-cart-plus"></i> Tambah ke Keranjang
+                        <i class="fa-solid fa-cart-plus"></i> <span data-i18n="modal.add_to_cart">Tambah ke
+                            Keranjang</span>
                     </button>
 
                     <div class="product-share">
-                        <span>Bagikan:</span>
+                        <span data-i18n="modal.share">Bagikan:</span>
                         <div class="share-icons">
                             <button class="share-btn whatsapp" id="shareWa" title="Share ke WhatsApp"><i
                                     class="fa-brands fa-whatsapp"></i></button>
@@ -359,27 +368,28 @@
     <div class="cart-modal-overlay" id="cartModal">
         <div class="cart-modal">
             <div class="cart-header">
-                <h3>Keranjang Belanja</h3>
+                <h3 data-i18n="cart.title">Keranjang Belanja</h3>
                 <button class="close-cart" id="closeCart"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="cart-items" id="cartItems">
                 <!-- Cart items will be injected here -->
-                <div class="empty-cart-message">Keranjang Anda kosong</div>
+                <div class="empty-cart-message" data-i18n="cart.empty">Keranjang Anda kosong</div>
             </div>
             <div class="cart-footer">
                 <!-- Coupon Section -->
                 <div class="coupon-section">
-                    <input type="text" id="couponInput" class="coupon-input" placeholder="Kode Promo (opsional)">
-                    <button id="applyCouponBtn" class="btn-apply">Pakai</button>
+                    <input type="text" id="couponInput" class="coupon-input" placeholder="Kode Promo (opsional)"
+                        data-i18n-placeholder="cart.coupon_placeholder">
+                    <button id="applyCouponBtn" class="btn-apply" data-i18n="cart.apply">Pakai</button>
                     <button id="removeCouponBtn" class="btn-remove-coupon hidden"><i
                             class="fa-solid fa-xmark"></i></button>
                 </div>
 
                 <div class="cart-total" id="cartSummary">
-                    <span>Total:</span>
+                    <span data-i18n="cart.total">Total:</span>
                     <span id="cartTotal">Rp 0</span>
                 </div>
-                <button class="btn-checkout" id="checkoutBtn">
+                <button class="btn-checkout" id="checkoutBtn" data-i18n="cart.checkout">
                     Checkout Sekarang
                 </button>
             </div>
@@ -390,33 +400,38 @@
     <div class="modal-overlay" id="checkoutModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Data Pemesanan</h3>
+                <h3 data-i18n="checkout.title">Data Pemesanan</h3>
                 <button class="close-modal" id="closeCheckout"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="modal-body">
                 <form id="checkoutForm" onsubmit="event.preventDefault(); processOrder();">
                     <div class="form-group">
-                        <label for="customerName">Nama Lengkap</label>
-                        <input type="text" id="customerName" name="customerName" required placeholder="Nama Anda">
+                        <label for="customerName" data-i18n="checkout.name">Nama Lengkap</label>
+                        <input type="text" id="customerName" name="customerName" required placeholder="Nama Anda"
+                            data-i18n-placeholder="checkout.name_placeholder">
                     </div>
                     <div class="form-group">
-                        <label for="customerPhone">Nomor WhatsApp</label>
-                        <input type="tel" id="customerPhone" name="customerPhone" required placeholder="08xxxxxxxxxx">
+                        <label for="customerPhone" data-i18n="checkout.phone">Nomor WhatsApp</label>
+                        <input type="tel" id="customerPhone" name="customerPhone" required placeholder="08xxxxxxxxxx"
+                            data-i18n-placeholder="checkout.phone_placeholder">
                     </div>
                     <div class="form-group">
-                        <label for="customerAddress">Alamat Lengkap</label>
+                        <label for="customerAddress" data-i18n="checkout.address">Alamat Lengkap</label>
                         <textarea id="customerAddress" name="customerAddress" required
-                            placeholder="Jalan, RT/RW, Kelurahan, Kecamatan, Kota, Kode Pos"></textarea>
+                            placeholder="Jalan, RT/RW, Kelurahan, Kecamatan, Kota, Kode Pos"
+                            data-i18n-placeholder="checkout.address_placeholder"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="paymentMethod">Metode Pembayaran</label>
+                        <label for="paymentMethod" data-i18n="checkout.payment">Metode Pembayaran</label>
                         <select id="paymentMethod" name="paymentMethod" required>
-                            <option value="Transfer Bank">Transfer Bank (BCA/Mandiri)</option>
-                            <option value="COD">COD (Bayar di Tempat)</option>
+                            <option value="Transfer Bank" data-i18n="checkout.payment_transfer">Transfer Bank
+                                (BCA/Mandiri)</option>
+                            <option value="COD" data-i18n="checkout.payment_cod">COD (Bayar di Tempat)</option>
                         </select>
                     </div>
                     <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px;">
-                        <i class="fa-brands fa-whatsapp"></i> Kirim Pesan Pemesanan
+                        <i class="fa-brands fa-whatsapp"></i> <span data-i18n="checkout.submit">Kirim Pesan
+                            Pemesanan</span>
                     </button>
                 </form>
             </div>
@@ -432,6 +447,7 @@
 
     <!-- Separate Data File -->
     <script src="data.js"></script>
+    <script src="translations.js"></script>
     <script src="script.js"></script>
 </body>
 

@@ -41,6 +41,9 @@ The core philosophy of this project is **simplicity meets elegance**. It bridges
 *   **Progressive Web App (PWA)**:
     *   **Installable**: Works as a native app on mobile and desktop.
     *   **Offline Mode**: Browse key pages even without an internet connection.
+*   **Dual Language Support (ID/EN)**:
+    *   **Language Toggle**: Switch seamlessly between Indonesian and English.
+    *   **Auto-Persistence**: Remembers your language preference for future visits.
 *   **Modern User Interface**:
     *   **Glassmorphism Design**: Sleek, translucent elements that provide depth and hierarchy.
     *   **Toast Notifications**: Non-intrusive, animated alerts for user actions (e.g., "Added to Cart").
@@ -86,6 +89,10 @@ All website content is now separated into **`data.js`** for easier editing:
     *   Add `badge: 'best-seller'` or `'limited'` for special labels.
 *   **Slides**: Edit the `heroSlides` array for banners.
 *   **Testimonials**: Manage reviews in the `testimonials` array.
+
+### Translations
+Language strings are managed in **`translations.js`**:
+*   Edit text for Navbar, Hero, Products, and Modals in the `translations` object (supports `id` and `en`).
 
 ### Configuration
 Everything is now centralized in the `config` object within **`data.js`**:

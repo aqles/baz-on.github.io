@@ -1,7 +1,5 @@
-// Data is imported from data.js
-// - heroSlides
-// - products
-// - testimonials
+// Mengambil data dari global scope (data.js)
+// Termasuk: heroSlides, products, testimonials
 
 
 let currentTestimonialSlide = 0;
@@ -75,13 +73,17 @@ function updateTestimonialPosition() {
 
 
 
-// State
+/**
+ * State & Variabel Global
+ * Menyimpan status aplikasi seperti keranjang, wishlist, dan bahasa.
+ */
 let cart = JSON.parse(localStorage.getItem('bazon_cart')) || [];
 let wishlist = JSON.parse(localStorage.getItem('bazon_wishlist')) || [];
 let activeCoupon = null;
-let currentVariant = {}; // Stores currently selected variants { size: 'M', color: 'Black' }
+let currentVariant = {}; // Menyimpan varian yang dipilih user
+let currentLang = localStorage.getItem('bazon_lang') || 'id'; // Bahasa default
 
-// DOM Elements
+// --- Referensi Elemen DOM ---
 const productGrid = document.getElementById('productGrid');
 const cartBtn = document.getElementById('cartBtn');
 const cartModal = document.getElementById('cartModal');
@@ -104,12 +106,12 @@ const cartCountElement = document.getElementById('cartCount');
 const cartSummary = document.getElementById('cartSummary');
 const checkoutBtn = document.getElementById('checkoutBtn');
 
-// Coupon Elements
+// --- Elemen Kupon ---
 const couponInput = document.getElementById('couponInput');
 const applyCouponBtn = document.getElementById('applyCouponBtn');
 const removeCouponBtn = document.getElementById('removeCouponBtn');
 
-// Helper Functions
+// --- Fungsi Bantuan (Helpers) ---
 const formatPrice = (price) => {
     return new Intl.NumberFormat('id-ID', {
         style: 'currency',
@@ -144,7 +146,7 @@ function showToast(message, type = 'info') {
     }, 3000);
 }
 
-// Load More Logic
+// --- Logika "Muat Lebih Banyak" ---
 let currentProductLimit = config.maxProducts || 8;
 const loadMoreContainer = document.getElementById('loadMoreContainer');
 const loadMoreBtn = document.getElementById('loadMoreBtn');
@@ -156,7 +158,7 @@ if (loadMoreBtn) {
     });
 }
 
-// Render Functions
+// --- Fungsi Render (Tampilan) ---
 function renderProducts(category = 'all', searchTerm = '') {
     // Keep track of active category for Load More
     activeCategory = category;
@@ -216,17 +218,17 @@ function renderProducts(category = 'all', searchTerm = '') {
 
         let badgeHtml = '';
 
-        // Badge Logic: Alternating if both exist, Static if only one
+        // Logika Badge: Bergantian jika ada diskon & badge, statis jika cuma satu
         if (hasDiscount && hasBadge) {
-            const badgeLabel = product.badge === 'best-seller' ? 'Best Seller' : 'Stok Terbatas';
+            const badgeLabel = product.badge === 'best-seller' ? translations[currentLang].products.badges.best_seller : translations[currentLang].products.badges.limited_stock;
             badgeHtml = `
-                <div class="sale-badge badge-anim-1">SALE</div>
+                <div class="sale-badge badge-anim-1">${translations[currentLang].products.badges.sale}</div>
                 <div class="product-badge ${product.badge} badge-anim-2">${badgeLabel}</div>
              `;
         } else if (hasDiscount) {
-            badgeHtml = '<div class="sale-badge">SALE</div>';
+            badgeHtml = `<div class="sale-badge">${translations[currentLang].products.badges.sale}</div>`;
         } else if (hasBadge) {
-            const badgeLabel = product.badge === 'best-seller' ? 'Best Seller' : 'Stok Terbatas';
+            const badgeLabel = product.badge === 'best-seller' ? translations[currentLang].products.badges.best_seller : translations[currentLang].products.badges.limited_stock;
             badgeHtml = `<div class="product-badge ${product.badge}">${badgeLabel}</div>`;
         }
 
@@ -250,10 +252,10 @@ function renderProducts(category = 'all', searchTerm = '') {
 
                 <div class="product-action-buttons">
                     <button class="btn-add-cart" onclick="addToCart(${product.id})">
-                        <i class="fa-solid fa-cart-plus"></i> Tambah
+                        <i class="fa-solid fa-cart-plus"></i> <span data-i18n="modal.add_to_cart">${translations[currentLang].modal.add_to_cart}</span>
                     </button>
                     <button class="btn-secondary" onclick="openProductModal(${product.id})" style="margin-top: 10px; width: 100%;">
-                        Lihat Detail
+                        Detail
                     </button>
                 </div>
             </div>
@@ -304,7 +306,7 @@ function renderCart() {
                             <span>${item.quantity}</span>
                             <button class="btn-qty" onclick="updateQuantity('${cartItemId}', 1)"><i class="fa-solid fa-plus"></i></button>
                         </div>
-                        <button class="btn-remove" onclick="removeFromCart('${cartItemId}')">Hapus</button>
+                        <button class="btn-remove" onclick="removeFromCart('${cartItemId}')"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </div>
             </div>
@@ -332,17 +334,17 @@ function renderCart() {
 
     cartSummary.innerHTML = `
         <div class="cart-subtotal">
-            <span>Subtotal</span>
+            <span>${translations[currentLang].cart.subtotal}</span>
             <span>${formatPrice(total)}</span>
         </div>
         ${activeCoupon ? `
         <div class="cart-discount">
-            <span>Diskon (${activeCoupon.code})</span>
+            <span>${translations[currentLang].cart.discount} (${activeCoupon.code})</span>
             <span>- ${formatPrice(discountAmount)}</span>
         </div>
         ` : ''}
         <div class="cart-grand-total">
-            <span>Total</span>
+            <span>${translations[currentLang].cart.total}</span>
             <span>${formatPrice(grandTotal)}</span>
         </div>
     `;
@@ -361,14 +363,14 @@ function renderCart() {
     }
 }
 
-// Updated Add to Cart Logic
+// --- Logika Tambah ke Keranjang ---
 window.addToCart = (productId, fromModal = false) => {
     const product = products.find(p => p.id === productId);
 
     // If adding from grid, and product has variants, open modal instead
     if (!fromModal && product.variants && (product.variants.sizes || product.variants.colors)) {
         openProductModal(productId);
-        showToast('Silakan pilih varian terlebih dahulu', 'info');
+        showToast(translations[currentLang].toast.select_variant, 'info');
         return;
     }
 
@@ -396,7 +398,7 @@ window.addToCart = (productId, fromModal = false) => {
     saveCart();
     renderCart();
 
-    showToast(`Berhasil menambahkan ${product.name}`, 'success');
+    showToast(translations[currentLang].toast.added_to_cart, 'success');
 };
 
 window.updateQuantity = (cartItemId, change) => {
@@ -418,14 +420,14 @@ window.removeFromCart = (cartItemId) => {
     cart = cart.filter(item => item.cartId != cartItemId && item.id != cartItemId);
     saveCart();
     renderCart();
-    showToast('Produk dihapus dari keranjang', 'error');
+    showToast(translations[currentLang].toast.removed_from_cart, 'error');
 };
 
 
-// Open Checkout Modal with Saved Address Logic
+// --- Modal Checkout & Auto-fill Alamat ---
 function openCheckoutModal() {
     if (cart.length === 0) {
-        showToast('Keranjang belanja Anda masih kosong!', 'error');
+        showToast(translations[currentLang].cart.empty, 'error');
         return;
     }
     cartModal.classList.remove('active');
@@ -447,7 +449,8 @@ function openCheckoutModal() {
         checkboxGroup.className = 'save-address-group';
         checkboxGroup.innerHTML = `
             <input type="checkbox" id="saveAddressCheckbox" checked>
-            <label for="saveAddressCheckbox">Simpan alamat untuk pesanan berikutnya</label>
+            <input type="checkbox" id="saveAddressCheckbox" checked>
+            <label for="saveAddressCheckbox">${translations[currentLang].checkout.save_address}</label>
          `;
         // Insert before submit button (last element)
         form.insertBefore(checkboxGroup, form.lastElementChild);
@@ -462,7 +465,7 @@ window.processOrder = () => {
     const shouldSave = document.getElementById('saveAddressCheckbox')?.checked;
 
     if (!name || !phone || !address) {
-        showToast('Mohon lengkapi semua data!', 'error');
+        showToast(translations[currentLang].toast.fill_data, 'error');
         return;
     }
 
@@ -518,11 +521,11 @@ window.processOrder = () => {
     const whatsappUrl = `https://wa.me/${config.whatsappNumber}?text=${message}`;
     window.open(whatsappUrl, '_blank');
 
-    showToast('Mengarahkan ke WhatsApp...', 'success');
+    showToast(translations[currentLang].toast.redirecting, 'success');
 };
 
 
-// Updated Product Modal Logic
+// --- Logika Modal Produk ---
 window.openProductModal = (id) => {
     const product = products.find(p => p.id === id);
     if (!product) return;
@@ -550,12 +553,12 @@ window.openProductModal = (id) => {
     // ... (Stock logic same) ...
     const stockElem = document.getElementById('modalProductStock');
     if (product.stock > 0) {
-        stockElem.textContent = `Stok: ${product.stock} Tersedia`;
+        stockElem.textContent = `${translations[currentLang].modal.stock} ${product.stock} ${translations[currentLang].modal.stock_available}`;
         stockElem.classList.remove('low');
         stockElem.style.display = 'block';
         if (product.stock < 10) stockElem.classList.add('low');
     } else {
-        stockElem.textContent = 'Stok Habis';
+        stockElem.textContent = translations[currentLang].modal.stock_empty;
         stockElem.classList.add('low');
     }
 
@@ -569,7 +572,7 @@ window.openProductModal = (id) => {
             const sizeGroup = document.createElement('div');
             sizeGroup.className = 'variant-group';
             sizeGroup.innerHTML = `
-                <span class="variant-label">Ukuran / Tipe:</span>
+                <span class="variant-label">${translations[currentLang].modal.variant_size}</span>
                 <div class="variant-options" id="sizeOptions">
                     ${product.variants.sizes.map(size => {
                 const isObject = typeof size === 'object';
@@ -588,7 +591,7 @@ window.openProductModal = (id) => {
             const colorGroup = document.createElement('div');
             colorGroup.className = 'variant-group';
             colorGroup.innerHTML = `
-                <span class="variant-label">Warna:</span>
+                <span class="variant-label">${translations[currentLang].modal.variant_color}</span>
                 <div class="variant-options" id="colorOptions">
                     ${product.variants.colors.map(color => {
                 const isObject = typeof color === 'object';
@@ -607,7 +610,7 @@ window.openProductModal = (id) => {
             const flavorGroup = document.createElement('div');
             flavorGroup.className = 'variant-group';
             flavorGroup.innerHTML = `
-                <span class="variant-label">Rasa:</span>
+                <span class="variant-label">${translations[currentLang].modal.variant_flavor}</span>
                 <div class="variant-options" id="flavorOptions">
                     ${product.variants.flavors.map(flavor => {
                 const isObject = typeof flavor === 'object';
@@ -674,7 +677,7 @@ window.openProductModal = (id) => {
 };
 
 
-// Variant Selection Helper
+// --- Helper Pemilihan Varian ---
 window.selectVariant = (type, value, btnElement, price = null) => {
     // Update State
     currentVariant[type] = value;
@@ -699,7 +702,7 @@ window.selectVariant = (type, value, btnElement, price = null) => {
 window.applyCoupon = () => {
     const code = couponInput.value.trim().toUpperCase();
     if (!code) {
-        showToast('Masukkan kode kupon!', 'error');
+        showToast(translations[currentLang].toast.coupon_invalid, 'error');
         return;
     }
 
@@ -708,9 +711,9 @@ window.applyCoupon = () => {
 
     if (coupon) {
         activeCoupon = coupon;
-        showToast(`Kupon ${coupon.code} diterapkan! (${coupon.description})`, 'success');
+        showToast(translations[currentLang].toast.coupon_applied, 'success');
     } else {
-        showToast('Kode kupon tidak valid!', 'error');
+        showToast(translations[currentLang].toast.coupon_invalid, 'error');
         return;
     }
 
@@ -720,11 +723,11 @@ window.applyCoupon = () => {
 window.removeCoupon = () => {
     activeCoupon = null;
     couponInput.value = '';
-    showToast('Kupon dihapus', 'success');
+    showToast(translations[currentLang].toast.coupon_removed, 'success');
     renderCart();
 };
 
-// Coupon Listeners
+// event listener untuk kode promo
 if (applyCouponBtn) applyCouponBtn.addEventListener('click', applyCoupon);
 if (removeCouponBtn) removeCouponBtn.addEventListener('click', removeCoupon);
 
@@ -744,13 +747,13 @@ filterBtns.forEach(btn => {
     });
 });
 
-// Search Listener
+// event listener untuk pencarian
 searchInput.addEventListener('input', (e) => {
     currentProductLimit = config.maxProducts || 8; // Reset Pagination
     renderProducts(activeCategory, e.target.value);
 });
 
-// Slider Logic
+// --- Logika Slider / Banner ---
 let currentSlide = 0;
 let slideInterval;
 
@@ -842,8 +845,9 @@ function resetAutoPlay() {
     startAutoPlay();
 }
 
-// Initial Render
+// --- Inisialisasi Awal ---
 document.addEventListener('DOMContentLoaded', () => {
+    initLanguage(); // Initialize Language First
     initSlider(); // Initialize Slider
     initFlashSale(); // Initialize Flash Sale
     initTheme(); // Initialize Theme
@@ -852,7 +856,48 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTestimonials();
 });
 
-// Theme Logic
+// --- Logika Bahasa (Internationalization) ---
+function initLanguage() {
+    const langToggle = document.getElementById('langToggle');
+    updateLanguage(currentLang); // Apply initial language
+
+    if (langToggle) {
+        langToggle.textContent = currentLang.toUpperCase();
+        langToggle.addEventListener('click', () => {
+            // Toggle Logic
+            currentLang = currentLang === 'id' ? 'en' : 'id';
+            localStorage.setItem('bazon_lang', currentLang);
+            langToggle.textContent = currentLang.toUpperCase();
+            updateLanguage(currentLang);
+        });
+    }
+}
+
+function updateLanguage(lang) {
+    // 1. Update HTML Data-i18n
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const text = key.split('.').reduce((obj, k) => obj && obj[k], translations[lang]);
+        if (text) el.textContent = text;
+    });
+
+    // 2. Update Placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        const text = key.split('.').reduce((obj, k) => obj && obj[k], translations[lang]);
+        if (text) el.placeholder = text;
+    });
+
+    // 3. Update HTML Lang Attribute
+    document.documentElement.lang = lang;
+
+    // 4. Re-render dynamic components to reflect text changes
+    renderCart();
+    renderProducts(activeCategory, searchInput.value);
+    // renderTestimonials(); // Testimonials are mostly static data, but title is handled by data-i18n
+}
+
+// --- Logika Tema (Dark/Light Mode) ---
 function initTheme() {
     const themeToggle = document.getElementById('themeToggle');
     const icon = themeToggle.querySelector('i');
@@ -879,7 +924,7 @@ function updateThemeIcon(icon, theme) {
     }
 }
 
-// PWA Install Logic
+// --- Logika Install PWA ---
 let deferredPrompt;
 const installBtn = document.getElementById('installBtn');
 
@@ -1008,7 +1053,7 @@ if (newsletterForm) {
             } else {
                 subscribers.push(email);
                 localStorage.setItem('bazon_subscribers', JSON.stringify(subscribers));
-                showToast('Terima kasih telah berlangganan!', 'success');
+                showToast(currentLang === 'id' ? 'Terima kasih telah berlangganan!' : 'Thanks for subscribing!', 'success');
                 emailInput.value = ''; // Reset
             }
         }

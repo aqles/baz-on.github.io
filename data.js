@@ -1,9 +1,9 @@
-// ==========================================
-// DATA WEBSITE BAZ-ON
-// Silakan edit bagian di bawah ini untuk mengubah konten website.
-// ==========================================
+/**
+ * Konfigurasi Konten Website
+ * Di sini kamu bisa mengatur data produk, banner, dan informasi lainnya.
+ */
 
-// 1. DATA SLIDE HERO (BANNER UTAMA)
+// --- Banner Utama (Hero Slider) ---
 const heroSlides = [
     {
         id: 1,
@@ -31,7 +31,7 @@ const heroSlides = [
     }
 ];
 
-// 2. DATA PRODUK
+// --- Daftar Produk ---
 const products = [
     {
         id: 1,
@@ -203,7 +203,7 @@ const products = [
     }
 ];
 
-// 3. DATA TESTIMONI
+// --- Testimoni Pelanggan ---
 const testimonials = [
     {
         id: 1,
@@ -230,7 +230,7 @@ const testimonials = [
         image: "https://api.dicebear.com/9.x/adventurer/svg?seed=Chase"
     }
 ];
-// 4. KONFIGURASI UMUM
+// --- Pengaturan Umum ---
 const config = {
     whatsappNumber: "6281234567890", // Ganti dengan nomor WhatsApp admin (format 62...)
     enableFlashSale: true, // Set false untuk menyembunyikan bagian Flash Sale
