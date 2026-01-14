@@ -1,16 +1,38 @@
 {
     "name": "Baz-On Store",
     "short_name": "Baz-On",
-    "start_url": "index.html",
+    "description": "Toko online fashion premium dengan pengalaman belanja modern.",
+    "start_url": "./index.html",
+    "scope": "./",
     "display": "standalone",
     "background_color": "#0f172a",
     "theme_color": "#0f172a",
     "orientation": "portrait",
+    "categories": [
+        "shopping",
+        "lifestyle",
+        "fashion"
+    ],
     "icons": [
         {
             "src": "logo.svg",
             "type": "image/svg+xml",
-            "sizes": "any"
+            "sizes": "any",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "images/desktop-preview.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide"
+        },
+        {
+            "src": "images/desktop-preview.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "narrow"
         }
     ]
 }

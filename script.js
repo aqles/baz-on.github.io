@@ -78,8 +78,8 @@ function updateTestimonialPosition() {
 // State
 let cart = JSON.parse(localStorage.getItem('bazon_cart')) || [];
 let wishlist = JSON.parse(localStorage.getItem('bazon_wishlist')) || [];
-let activeCoupon = null; // { code: 'CODE', type: 'percent'|'fixed', value: 10 }
-
+let activeCoupon = null;
+let currentVariant = {}; // Stores currently selected variants { size: 'M', color: 'Black' }
 
 // DOM Elements
 const productGrid = document.getElementById('productGrid');
@@ -108,7 +108,6 @@ const checkoutBtn = document.getElementById('checkoutBtn');
 const couponInput = document.getElementById('couponInput');
 const applyCouponBtn = document.getElementById('applyCouponBtn');
 const removeCouponBtn = document.getElementById('removeCouponBtn');
-
 
 // Helper Functions
 const formatPrice = (price) => {
@@ -140,13 +139,21 @@ function renderProducts(category = 'all', searchTerm = '') {
     }
 
     // Sort Products
-    const sortMethod = document.getElementById('sortSelect').value;
-    if (sortMethod === 'price_asc') {
-        filteredProducts.sort((a, b) => a.price - b.price);
-    } else if (sortMethod === 'price_desc') {
-        filteredProducts.sort((a, b) => b.price - a.price);
-    } else if (sortMethod === 'name_asc') {
-        filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+    const sortSelect = document.getElementById('sortSelect');
+    if (sortSelect) {
+        const sortMethod = sortSelect.value;
+        if (sortMethod === 'price_asc') {
+            filteredProducts.sort((a, b) => a.price - b.price);
+        } else if (sortMethod === 'price_desc') {
+            filteredProducts.sort((a, b) => b.price - a.price);
+        } else if (sortMethod === 'name_asc') {
+            filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+        }
+    }
+
+    // Limit Products (if configured and not searching/filtering specific things usually, but let's apply everywhere as requested or maybe just "homepage")
+    if ((category === 'all' && !searchTerm) && config.maxProducts && config.maxProducts > 0) {
+        filteredProducts = filteredProducts.slice(0, config.maxProducts);
     }
 
     productGrid.innerHTML = filteredProducts.map(product => {
@@ -177,7 +184,7 @@ function renderProducts(category = 'all', searchTerm = '') {
                 <i class="fa-${isWishlist ? 'solid' : 'regular'} fa-heart"></i>
             </button>
             <div class="product-image-container">
-                <img src="${product.image}" alt="${product.name}" class="product-image">
+                <img src="${product.image}" loading="lazy" alt="${product.name}" class="product-image">
             </div>
             <div class="product-info">
                 <div class="product-category">${product.category}</div>
@@ -188,25 +195,19 @@ function renderProducts(category = 'all', searchTerm = '') {
                     <div class="current-price ${hasDiscount ? 'discounted' : ''}">${formatPrice(product.price)}</div>
                 </div>
 
-                <button class="btn-add-cart" onclick="addToCart(${product.id})">
-                    <i class="fa-solid fa-cart-plus"></i> Tambah ke Keranjang
-                </button>
-                <button class="btn-secondary" onclick="openProductModal(${product.id})" style="margin-top: 10px; width: 100%;">
-                    Lihat Detail
-                </button>
+                <div class="product-action-buttons">
+                    <button class="btn-add-cart" onclick="addToCart(${product.id})">
+                        <i class="fa-solid fa-cart-plus"></i> Tambah
+                    </button>
+                    <button class="btn-secondary" onclick="openProductModal(${product.id})" style="margin-top: 10px; width: 100%;">
+                        Lihat Detail
+                    </button>
+                </div>
             </div>
         </div>
     `;
     }).join('');
 }
-
-// ... renderCart ...
-
-// Listeners
-document.getElementById('sortSelect').addEventListener('change', () => {
-    renderProducts(activeCategory, searchInput.value);
-});
-
 function renderCart() {
     cartCountElement.textContent = cart.reduce((total, item) => total + item.quantity, 0);
 
@@ -225,26 +226,39 @@ function renderCart() {
         const itemTotal = product.price * item.quantity;
         total += itemTotal;
 
+        // Variant Text
+        let variantText = '';
+        if (item.variants) {
+            const parts = [];
+            if (item.variants.size) parts.push(`Size: ${item.variants.size}`);
+            if (item.variants.color) parts.push(`Color: ${item.variants.color}`);
+            variantText = parts.length > 0 ? `<div class="cart-variant-info">${parts.join(', ')}</div>` : '';
+        }
+
+        // We need a unique composite ID for removing items from cart
+        const cartItemId = item.cartId || item.id; // Backward compatibility
+
         return `
             <div class="cart-item">
                 <img src="${product.image}" alt="${product.name}" class="cart-item-img">
                 <div class="cart-item-details">
                     <div class="cart-item-title">${product.name}</div>
+                    ${variantText}
                     <div class="cart-item-price">${formatPrice(product.price)}</div>
                     <div class="cart-item-controls">
                         <div class="quantity-controls">
-                            <button class="btn-qty" onclick="updateQuantity(${item.id}, -1)"><i class="fa-solid fa-minus"></i></button>
+                            <button class="btn-qty" onclick="updateQuantity('${cartItemId}', -1)"><i class="fa-solid fa-minus"></i></button>
                             <span>${item.quantity}</span>
-                            <button class="btn-qty" onclick="updateQuantity(${item.id}, 1)"><i class="fa-solid fa-plus"></i></button>
+                            <button class="btn-qty" onclick="updateQuantity('${cartItemId}', 1)"><i class="fa-solid fa-plus"></i></button>
                         </div>
-                        <button class="btn-remove" onclick="removeFromCart(${item.id})">Hapus</button>
+                        <button class="btn-remove" onclick="removeFromCart('${cartItemId}')">Hapus</button>
                     </div>
                 </div>
             </div>
         `;
     }).join('');
 
-    // Calculate Totals
+    // Calculate Totals ... (Same as before)
     let discountAmount = 0;
     if (activeCoupon) {
         if (activeCoupon.type === 'percent') {
@@ -254,12 +268,9 @@ function renderCart() {
         }
     }
 
-    // Ensure discount doesn't exceed total
     if (discountAmount > total) discountAmount = total;
-
     const grandTotal = total - discountAmount;
 
-    // Render HTML for Totals
     cartSummary.innerHTML = `
         <div class="cart-subtotal">
             <span>Subtotal</span>
@@ -277,7 +288,7 @@ function renderCart() {
         </div>
     `;
 
-    // Manage Coupon UI State
+    // Manage Coupon UI State ... (Same as before)
     if (activeCoupon) {
         couponInput.value = activeCoupon.code;
         couponInput.disabled = true;
@@ -291,103 +302,96 @@ function renderCart() {
     }
 }
 
-// Toast Function
-function showToast(message, type = 'success') {
-    const container = document.getElementById('toastContainer');
-    const toast = document.createElement('div');
-
-    const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
-
-    toast.className = `toast ${type}`;
-    toast.innerHTML = `
-        <i class="fa-solid ${icon}"></i>
-        <span>${message}</span>
-    `;
-
-    container.appendChild(toast);
-
-    // Trigger animation
-    requestAnimationFrame(() => {
-        toast.classList.add('show');
-    });
-
-    // Remove after 3 seconds
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => {
-            toast.remove();
-        }, 300);
-    }, 3000);
-}
-
-// Logic Functions
-window.addToCart = (productId) => {
-    const existingItem = cart.find(item => item.id === productId);
+// Updated Add to Cart Logic
+window.addToCart = (productId, fromModal = false) => {
     const product = products.find(p => p.id === productId);
+
+    // If adding from grid, and product has variants, open modal instead
+    if (!fromModal && product.variants && (product.variants.sizes || product.variants.colors)) {
+        openProductModal(productId);
+        showToast('Silakan pilih varian terlebih dahulu', 'info');
+        return;
+    }
+
+    // Identify Cart Item ID (Composite for variants)
+    let cartItem = {
+        id: productId,
+        quantity: 1,
+        variants: fromModal ? { ...currentVariant } : {}
+    };
+
+    // Generate a unique ID for the cart item based on product ID + variants
+    // Simple hash: id-size-color
+    const variantKey = Object.values(cartItem.variants).join('-');
+    cartItem.cartId = `${productId}-${variantKey}`;
+
+    const existingItem = cart.find(item => item.cartId === cartItem.cartId);
 
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        cart.push({ id: productId, quantity: 1 });
+        cart.push(cartItem);
     }
 
     saveCart();
     renderCart();
 
-    // Toast feedback
     showToast(`Berhasil menambahkan ${product.name}`, 'success');
 };
 
-window.updateQuantity = (productId, change) => {
-    const item = cart.find(item => item.id === productId);
+window.updateQuantity = (cartItemId, change) => {
+    // Note: cartItemId is now string for variants
+    const item = cart.find(item => item.cartId == cartItemId || (item.id == cartItemId && !item.cartId));
     if (!item) return;
 
     item.quantity += change;
 
     if (item.quantity <= 0) {
-        removeFromCart(productId);
+        removeFromCart(cartItemId);
     } else {
         saveCart();
         renderCart();
     }
 };
 
-window.removeFromCart = (productId) => {
-    cart = cart.filter(item => item.id !== productId);
+window.removeFromCart = (cartItemId) => {
+    cart = cart.filter(item => item.cartId != cartItemId && item.id != cartItemId);
     saveCart();
     renderCart();
     showToast('Produk dihapus dari keranjang', 'error');
 };
 
-function saveCart() {
-    localStorage.setItem('bazon_cart', JSON.stringify(cart));
-}
 
-window.toggleWishlist = (productId) => {
-    const index = wishlist.indexOf(productId);
-    const product = products.find(p => p.id === productId);
-
-    if (index === -1) {
-        wishlist.push(productId);
-        showToast(`${product.name} ditambahkan ke favorit`, 'success');
-    } else {
-        wishlist.splice(index, 1);
-        showToast(`${product.name} dihapus dari favorit`, 'success');
-    }
-
-    localStorage.setItem('bazon_wishlist', JSON.stringify(wishlist));
-
-    // Re-render to update icons and filter if active
-    renderProducts(activeCategory, searchInput.value);
-};
-
+// Open Checkout Modal with Saved Address Logic
 function openCheckoutModal() {
     if (cart.length === 0) {
         showToast('Keranjang belanja Anda masih kosong!', 'error');
         return;
     }
-    cartModal.classList.remove('active'); // Close cart modal
-    checkoutModal.classList.add('active'); // Open checkout modal
+    cartModal.classList.remove('active');
+    checkoutModal.classList.add('active');
+
+    // Auto-fill address
+    const savedData = localStorage.getItem('bazon_user_data');
+    if (savedData) {
+        const userData = JSON.parse(savedData);
+        if (userData.name) document.getElementById('customerName').value = userData.name;
+        if (userData.phone) document.getElementById('customerPhone').value = userData.phone;
+        if (userData.address) document.getElementById('customerAddress').value = userData.address;
+    }
+
+    // Check if checkbox exists, if not create it
+    const form = document.getElementById('checkoutForm');
+    if (!document.getElementById('saveAddressCheckbox')) {
+        const checkboxGroup = document.createElement('div');
+        checkboxGroup.className = 'save-address-group';
+        checkboxGroup.innerHTML = `
+            <input type="checkbox" id="saveAddressCheckbox" checked>
+            <label for="saveAddressCheckbox">Simpan alamat untuk pesanan berikutnya</label>
+         `;
+        // Insert before submit button (last element)
+        form.insertBefore(checkboxGroup, form.lastElementChild);
+    }
 }
 
 window.processOrder = () => {
@@ -395,10 +399,17 @@ window.processOrder = () => {
     const phone = document.getElementById('customerPhone').value;
     const address = document.getElementById('customerAddress').value;
     const payment = document.getElementById('paymentMethod').value;
+    const shouldSave = document.getElementById('saveAddressCheckbox')?.checked;
 
     if (!name || !phone || !address) {
         showToast('Mohon lengkapi semua data!', 'error');
         return;
+    }
+
+    // Save Data if requested
+    if (shouldSave) {
+        const userData = { name, phone, address };
+        localStorage.setItem('bazon_user_data', JSON.stringify(userData));
     }
 
     const br = '%0A';
@@ -410,7 +421,15 @@ window.processOrder = () => {
         const itemTotal = product.price * item.quantity;
         total += itemTotal;
 
-        message += `${index + 1}. ${product.name} (x${item.quantity}) - ${formatPrice(itemTotal)}${br}`;
+        let variantInfo = '';
+        if (item.variants) {
+            const parts = [];
+            if (item.variants.size) parts.push(`Size: ${item.variants.size}`);
+            if (item.variants.color) parts.push(`Color: ${item.variants.color}`);
+            if (parts.length > 0) variantInfo = ` (${parts.join(', ')})`;
+        }
+
+        message += `${index + 1}. ${product.name}${variantInfo} (x${item.quantity}) - ${formatPrice(itemTotal)}${br}`;
     });
 
     message += `${br}Total: *${formatPrice(total)}*${br}`;
@@ -440,33 +459,16 @@ window.processOrder = () => {
     window.open(whatsappUrl, '_blank');
 
     showToast('Mengarahkan ke WhatsApp...', 'success');
-
-    // Optional: Clear cart after checkout
-    // cart = [];
-    // saveCart();
-    // renderCart();
-    // checkoutModal.classList.remove('active');
 };
 
-// Event Listeners
-cartBtn.addEventListener('click', () => {
-    cartModal.classList.add('active');
-});
 
-closeCart.addEventListener('click', () => {
-    cartModal.classList.remove('active');
-});
-
-cartModal.addEventListener('click', (e) => {
-    if (e.target === cartModal) {
-        cartModal.classList.remove('active');
-    }
-});
-
-// Product Modal Logic
+// Updated Product Modal Logic
 window.openProductModal = (id) => {
     const product = products.find(p => p.id === id);
     if (!product) return;
+
+    // Reset current variant
+    currentVariant = {};
 
     modalProductImage.src = product.image;
     modalProductCategory.textContent = product.category;
@@ -474,9 +476,7 @@ window.openProductModal = (id) => {
     modalProductPrice.textContent = formatPrice(product.price);
     modalProductDesc.textContent = product.description;
 
-    // --- New Detail Logic --- 
-
-    // 1. Rating
+    // ... (Rating logic same) ...
     const starCount = Math.round(product.rating || 0);
     const starHtml = Array(5).fill(0).map((_, i) =>
         `<i class="fa-${i < starCount ? 'solid' : 'regular'} fa-star"></i>`
@@ -487,7 +487,7 @@ window.openProductModal = (id) => {
         <span>(${product.reviews || 0} Ulasan)</span>
     `;
 
-    // 2. Stock
+    // ... (Stock logic same) ...
     const stockElem = document.getElementById('modalProductStock');
     if (product.stock > 0) {
         stockElem.textContent = `Stok: ${product.stock} Tersedia`;
@@ -499,7 +499,40 @@ window.openProductModal = (id) => {
         stockElem.classList.add('low');
     }
 
-    // 3. Specs
+    // Render Variants
+    const variantsContainer = document.getElementById('modalVariants');
+    variantsContainer.innerHTML = ''; // Clear previous
+
+    if (product.variants) {
+        // Sizes
+        if (product.variants.sizes && product.variants.sizes.length > 0) {
+            const sizeGroup = document.createElement('div');
+            sizeGroup.className = 'variant-group';
+            sizeGroup.innerHTML = `
+                <span class="variant-label">Ukuran:</span>
+                <div class="variant-options" id="sizeOptions">
+                    ${product.variants.sizes.map(size => `<button class="variant-btn" onclick="selectVariant('size', '${size}', this)">${size}</button>`).join('')}
+                </div>
+             `;
+            variantsContainer.appendChild(sizeGroup);
+            // Auto select first? No, force user to pick
+        }
+
+        // Colors
+        if (product.variants.colors && product.variants.colors.length > 0) {
+            const colorGroup = document.createElement('div');
+            colorGroup.className = 'variant-group';
+            colorGroup.innerHTML = `
+                <span class="variant-label">Warna:</span>
+                <div class="variant-options" id="colorOptions">
+                    ${product.variants.colors.map(color => `<button class="variant-btn" onclick="selectVariant('color', '${color}', this)">${color}</button>`).join('')}
+                </div>
+             `;
+            variantsContainer.appendChild(colorGroup);
+        }
+    }
+
+    // Spec logic same
     const specsList = document.getElementById('modalProductSpecs');
     if (product.specs && product.specs.length > 0) {
         specsList.innerHTML = product.specs.map(spec => `<li>${spec}</li>`).join('');
@@ -508,13 +541,24 @@ window.openProductModal = (id) => {
         document.querySelector('.modal-specs-container').style.display = 'none';
     }
 
-    // Update Add to Cart button to add specific product
+    // Update Add to Cart button
     modalAddToCartBtn.onclick = () => {
-        addToCart(product.id);
+        // Validate Variants
+        if (product.variants) {
+            if (product.variants.sizes && !currentVariant.size) {
+                showToast('Pilih ukuran terlebih dahulu!', 'error');
+                return;
+            }
+            if (product.variants.colors && !currentVariant.color) {
+                showToast('Pilih warna terlebih dahulu!', 'error');
+                return;
+            }
+        }
+        addToCart(product.id, true);
         productModal.classList.remove('active');
     };
 
-    // Share Logic
+    // ... (Share Logic same) ...
     const shareText = `Cek produk keren ini: ${product.name} - ${formatPrice(product.price)} di Baz-On Store!`;
     const shareUrl = window.location.href.split('#')[0]; // Clean URL
 
@@ -535,27 +579,23 @@ window.openProductModal = (id) => {
     productModal.classList.add('active');
 };
 
-closeProductModal.addEventListener('click', () => {
-    productModal.classList.remove('active');
-});
 
-productModal.addEventListener('click', (e) => {
-    if (e.target === productModal) {
-        productModal.classList.remove('active');
-    }
-});
+// Variant Selection Helper
+window.selectVariant = (type, value, btnElement) => {
+    // Update State
+    currentVariant[type] = value;
 
-checkoutBtn.addEventListener('click', openCheckoutModal);
+    // Update UI
+    // Find parent group and remove active from all siblings
+    const parent = btnElement.parentElement;
+    const siblings = parent.querySelectorAll('.variant-btn');
+    siblings.forEach(el => el.classList.remove('active'));
 
-closeCheckout.addEventListener('click', () => {
-    checkoutModal.classList.remove('active');
-});
+    // Add active to clicked
+    btnElement.classList.add('active');
+};
 
-checkoutModal.addEventListener('click', (e) => {
-    if (e.target === checkoutModal) {
-        checkoutModal.classList.remove('active');
-    }
-});
+
 
 window.applyCoupon = () => {
     const code = couponInput.value.trim().toUpperCase();
@@ -586,8 +626,9 @@ window.removeCoupon = () => {
 };
 
 // Coupon Listeners
-applyCouponBtn.addEventListener('click', applyCoupon);
-removeCouponBtn.addEventListener('click', removeCoupon);
+if (applyCouponBtn) applyCouponBtn.addEventListener('click', applyCoupon);
+if (removeCouponBtn) removeCouponBtn.addEventListener('click', removeCoupon);
+
 let activeCategory = 'all';
 
 filterBtns.forEach(btn => {
@@ -737,6 +778,44 @@ function updateThemeIcon(icon, theme) {
     }
 }
 
+// PWA Install Logic
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent Chrome 67 and earlier from automatically showing the prompt
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    deferredPrompt = e;
+    // Update UI to notify the user they can add to home screen
+    if (installBtn) installBtn.classList.remove('hidden');
+});
+
+if (installBtn) {
+    installBtn.addEventListener('click', (e) => {
+        // Hide the app provided install promotion
+        installBtn.classList.add('hidden');
+        // Show the install prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+            } else {
+                console.log('User dismissed the A2HS prompt');
+            }
+            deferredPrompt = null;
+        });
+    });
+}
+
+window.addEventListener('appinstalled', () => {
+    // Log install to analytics
+    console.log('PWA was installed', 'appinstalled');
+    // Hide button if visible
+    if (installBtn) installBtn.classList.add('hidden');
+});
+
 // Scroll to Top Logic
 const scrollTopBtn = document.getElementById('scrollTopBtn');
 
@@ -757,6 +836,16 @@ scrollTopBtn.addEventListener('click', () => {
 
 // Flash Sale Logic
 function initFlashSale() {
+    const flashSaleSection = document.getElementById('flashSale');
+
+    // Check Config
+    if (config.enableFlashSale === false) {
+        if (flashSaleSection) {
+            flashSaleSection.style.display = 'none';
+        }
+        return;
+    }
+
     const hoursElem = document.getElementById('timerHours');
     const minutesElem = document.getElementById('timerMinutes');
     const secondsElem = document.getElementById('timerSeconds');
@@ -822,5 +911,78 @@ if (newsletterForm) {
                 emailInput.value = ''; // Reset
             }
         }
+    });
+}
+
+
+
+// Product Modal Close Listeners
+if (closeProductModal) {
+    closeProductModal.addEventListener('click', () => {
+        productModal.classList.remove('active');
+    });
+}
+
+if (productModal) {
+    productModal.addEventListener('click', (e) => {
+        if (e.target === productModal) {
+            productModal.classList.remove('active');
+        }
+    });
+
+    // Also close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && productModal.classList.contains('active')) {
+            productModal.classList.remove('active');
+        }
+    });
+}
+
+// Cart Modal Close Listeners (Verify these exist too)
+if (cartBtn) {
+    cartBtn.addEventListener('click', () => {
+        cartModal.classList.add('active');
+    });
+}
+
+if (closeCart) {
+    closeCart.addEventListener('click', () => {
+        cartModal.classList.remove('active');
+    });
+}
+
+if (cartModal) {
+    cartModal.addEventListener('click', (e) => {
+        if (e.target === cartModal) {
+            cartModal.classList.remove('active');
+        }
+    });
+}
+
+// Checkout Modal Close Listeners
+if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', openCheckoutModal);
+}
+
+if (closeCheckout) {
+    closeCheckout.addEventListener('click', () => {
+        checkoutModal.classList.remove('active');
+    });
+}
+
+if (checkoutModal) {
+    checkoutModal.addEventListener('click', (e) => {
+        if (e.target === checkoutModal) {
+            checkoutModal.classList.remove('active');
+        }
+    });
+}
+
+// Sort Listener
+const sortSelect = document.getElementById('sortSelect');
+if (sortSelect) {
+    sortSelect.addEventListener('change', () => {
+        // use activeCategory from global scope
+        renderProducts(activeCategory, searchInput.value);
     });
 }

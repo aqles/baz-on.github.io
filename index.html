@@ -84,6 +84,9 @@
                     <img src="logo.svg" alt="Baz-On Logo" class="logo-img"> Baz-On
                 </div>
                 <div class="nav-icons">
+                    <button class="install-btn hidden" id="installBtn" aria-label="Install App">
+                        <i class="fa-solid fa-download"></i> Install
+                    </button>
                     <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode">
                         <i class="fa-solid fa-moon"></i>
                     </button>
@@ -149,10 +152,21 @@
                 <div class="divider"></div>
             </div>
 
-            <div class="search-container">
-                <div class="search-wrapper">
-                    <i class="fa-solid fa-search search-icon"></i>
-                    <input type="text" id="searchInput" name="search" placeholder="Cari produk...">
+            <div class="controls-wrapper">
+                <div class="search-container">
+                    <div class="search-wrapper">
+                        <i class="fa-solid fa-search search-icon"></i>
+                        <input type="text" id="searchInput" name="search" placeholder="Cari produk...">
+                    </div>
+                </div>
+
+                <div class="sort-container">
+                    <select id="sortSelect" name="sort" class="sort-dropdown">
+                        <option value="default">Relevansi</option>
+                        <option value="price_asc">Harga Terendah</option>
+                        <option value="price_desc">Harga Tertinggi</option>
+                        <option value="name_asc">Nama (A-Z)</option>
+                    </select>
                 </div>
             </div>
 
@@ -164,14 +178,6 @@
                 <button class="filter-btn" data-category="Electronics">Electronics</button>
                 <button class="filter-btn" data-category="Bags">Bags</button>
                 <button class="filter-btn" data-category="favorites"><i class="fa-solid fa-heart"></i> Favorit</button>
-
-                <!-- Sort Dropdown -->
-                <select id="sortSelect" name="sort" class="sort-dropdown">
-                    <option value="default">Relevansi</option>
-                    <option value="price_asc">Harga Terendah</option>
-                    <option value="price_desc">Harga Tertinggi</option>
-                    <option value="name_asc">Nama (A-Z)</option>
-                </select>
             </div>
 
             <div class="product-grid" id="productGrid">
@@ -303,6 +309,11 @@
 
                     <p class="modal-price" id="modalProductPrice">So, 0</p>
                     <p class="modal-description" id="modalProductDesc">Description...</p>
+
+                    <!-- Variants Section -->
+                    <div id="modalVariants" class="modal-variants">
+                        <!-- Variants injected via JS -->
+                    </div>
 
                     <div class="modal-specs-container">
                         <h4>Spesifikasi:</h4>

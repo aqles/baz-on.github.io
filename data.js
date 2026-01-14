@@ -45,7 +45,10 @@ const products = [
         rating: 4.8,
         reviews: 128,
         stock: 15,
-        specs: ["Material: Stainless Steel", "Water Resistant: 5 ATM", "Movement: Quartz", "Diameter: 42mm"]
+        specs: ["Material: Stainless Steel", "Water Resistant: 5 ATM", "Movement: Quartz", "Diameter: 42mm"],
+        variants: {
+            colors: ["Silver", "Black Gold"]
+        }
     },
     {
         id: 2,
@@ -57,7 +60,11 @@ const products = [
         rating: 4.5,
         reviews: 85,
         stock: 42,
-        specs: ["Material: Premium Synthetic Leather", "Lining: Cotton", "Fit: Regular", "Pockets: 4"]
+        specs: ["Material: Premium Synthetic Leather", "Lining: Cotton", "Fit: Regular", "Pockets: 4"],
+        variants: {
+            sizes: ["S", "M", "L", "XL", "XXL"],
+            colors: ["Black", "Dark Brown"]
+        }
     },
     {
         id: 3,
@@ -71,7 +78,10 @@ const products = [
         rating: 4.9,
         reviews: 210,
         stock: 8,
-        specs: ["Upper: Breathable Mesh", "Sole: Rubber", "Insole: Memory Foam", "Weight: Lightweight"]
+        specs: ["Upper: Breathable Mesh", "Sole: Rubber", "Insole: Memory Foam", "Weight: Lightweight"],
+        variants: {
+            sizes: ["39", "40", "41", "42", "43", "44"]
+        }
     },
     {
         id: 4,
@@ -83,7 +93,10 @@ const products = [
         rating: 4.6,
         reviews: 64,
         stock: 25,
-        specs: ["Material: Waterproof Canvas", "Capacity: 20L", "Laptop Compartment: 15.6 inch", "Waterproof: Yes"]
+        specs: ["Material: Waterproof Canvas", "Capacity: 20L", "Laptop Compartment: 15.6 inch", "Waterproof: Yes"],
+        variants: {
+            colors: ["Khaki", "Army Green", "Black"]
+        }
     },
     {
         id: 5,
@@ -109,7 +122,11 @@ const products = [
         rating: 4.4,
         reviews: 150,
         stock: 100,
-        specs: ["Material: Cotton Twill Stretch", "Fit: Slim Fit", "Waist: Button & Zip", "Care: Machine Wash"]
+        specs: ["Material: Cotton Twill Stretch", "Fit: Slim Fit", "Waist: Button & Zip", "Care: Machine Wash"],
+        variants: {
+            sizes: ["28", "30", "32", "34", "36"],
+            colors: ["Khaki", "Navy", "Black"]
+        }
     }
 ];
 
@@ -143,6 +160,8 @@ const testimonials = [
 // 4. KONFIGURASI UMUM
 const config = {
     whatsappNumber: "6281234567890", // Ganti dengan nomor WhatsApp admin (format 62...)
+    enableFlashSale: true, // Set false untuk menyembunyikan bagian Flash Sale
+    maxProducts: 8, // Jumlah maksimal produk yang ditampilkan di homepage (Set 0 untuk tampilkan semua)
     flashSaleDurationHours: 24, // Durasi flash sale dalam jam
     coupons: [
         {

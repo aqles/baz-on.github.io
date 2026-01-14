@@ -26,17 +26,21 @@ The core philosophy of this project is **simplicity meets elegance**. It bridges
 
 *   **Dynamic Hero Slider**: An engaging, touch-responsive slideshow that highlights featured collections with auto-play and manual navigation.
 *   **Enhanced Shopping Experience**:
+    *   **Product Variants**: Support for multiple product variations like Sizes (S, M, L) and Colors.
     *   **Product Sorting & Discounts**: Sort products by price/name and view special "Sale" offers.
     *   **Trust Signals**: Verified badges for Free Shipping, Secure Payment, and more.
     *   **Dynamic Testimonials**: A responsive customer review slider to build credibility.
-    *   **Detailed Product View**: Comprehensive product modals with star ratings, stock status, and technical specifications.
+    *   **Detailed Product View**: Comprehensive product modals with star ratings, stock status, variant selection, and technical specifications.
     *   **Quick View Modal**: Detailed product previews with zoom-on-hover logic for desktop.
-    *   **Wishlist System**: extensive "Add to Favorites" functionality with instant visual feedback.
+    *   **Wishlist System**: Extensive "Add to Favorites" functionality with instant visual feedback.
     *   **Coupon System**: Apply discount codes (percentage or fixed amount) at checkout.
-    *   **Flash Sale Countdown**: Urgency-inducing countdown timer for special promotions.
+    *   **Flash Sale Countdown**: Urgency-inducing countdown timer for special promotions, now fully configurable.
     *   **Smart Filtering**: Instant search and category filtering for seamless navigation.
     *   **Product Badges**: "Best Seller" and "Limited Stock" labels to guide user attention.
     *   **Social Sharing**: Integrated share buttons (WhatsApp, Twitter, Copy Link) in product details.
+*   **Progressive Web App (PWA)**:
+    *   **Installable**: Works as a native app on mobile and desktop.
+    *   **Offline Mode**: Browse key pages even without an internet connection.
 *   **Modern User Interface**:
     *   **Glassmorphism Design**: Sleek, translucent elements that provide depth and hierarchy.
     *   **Toast Notifications**: Non-intrusive, animated alerts for user actions (e.g., "Added to Cart").
@@ -48,7 +52,8 @@ The core philosophy of this project is **simplicity meets elegance**. It bridges
     *   **Accessibility**: Full ARIA support for better screen reader compatibility.
 *   **Seamless Checkout**:
     *   **Persistent Cart**: LocalStorage integration ensures shopping carts are saved between sessions.
-    *   **WhatsApp Integration**: Automatically generates a detailed order summary and redirects to WhatsApp for payment processing.
+    *   **Address Auto-Save**: Remembers customer details (Name, Phone, Address) for faster future checkouts.
+    *   **WhatsApp Integration**: Automatically generates a detailed order summary (including selected variants) and redirects to WhatsApp for payment processing.
 
 ## Tech Stack
 
@@ -56,7 +61,8 @@ This project allows for maximum customization and zero dependency issues by usin
 
 *   **HTML5**: Semantic structure for better accessibility and SEO.
 *   **CSS3**: Advanced styling using Custom Properties (Variables), Flexbox, and Grid. No external CSS frameworks (like Tailwind or Bootstrap) were used, ensuring complete control over the design system.
-*   **JavaScript (ES6+)**: specialized logic for state management (Cart/Wishlist), DOM manipulation, and interactive features without heavy libraries (like React or Vue).
+*   **JavaScript (ES6+)**: Specialized logic for state management (Cart/Wishlist), DOM manipulation, and interactive features without heavy libraries (like React or Vue).
+*   **PWA**: Service Workers and Manifest for offline capability and app installation.
 
 ## Installation & Setup
 
@@ -76,7 +82,7 @@ To run this project locally:
 ### Content Management (New!)
 All website content is now separated into **`data.js`** for easier editing:
 *   **Products**: Add/Remove items in the `products` array. 
-    *   New fields supported: `rating` (0-5), `reviews` (count), `stock` (qty), and `specs` (array of strings).
+    *   New fields supported: `rating`, `reviews`, `stock`, `specs`, and `variants` (sizes/colors).
     *   Add `badge: 'best-seller'` or `'limited'` for special labels.
 *   **Slides**: Edit the `heroSlides` array for banners.
 *   **Testimonials**: Manage reviews in the `testimonials` array.
@@ -84,7 +90,8 @@ All website content is now separated into **`data.js`** for easier editing:
 ### Configuration
 Everything is now centralized in the `config` object within **`data.js`**:
 *   **WhatsApp Number**: Change the `whatsappNumber` field.
-*   **Flash Sale**: Adjust `flashSaleDurationHours`.
+*   **Flash Sale**: Toggle with `enableFlashSale` and adjust duration with `flashSaleDurationHours`.
+*   **Homepage Products**: Limit the number of products displayed with `maxProducts`.
 *   **Coupons**: Add or edit codes in the `coupons` array (supports `type: 'percent'` or `'fixed'`).
 *   **Theme Colors**: Edit CSS Variables in `style.css` (Top Section) to change the color scheme.
 
