@@ -177,11 +177,18 @@
                 <button class="filter-btn" data-category="Accessories">Accessories</button>
                 <button class="filter-btn" data-category="Electronics">Electronics</button>
                 <button class="filter-btn" data-category="Bags">Bags</button>
+                <button class="filter-btn" data-category="Services">Services</button>
+                <button class="filter-btn" data-category="Cakes">Cakes</button>
                 <button class="filter-btn" data-category="favorites"><i class="fa-solid fa-heart"></i> Favorit</button>
             </div>
 
             <div class="product-grid" id="productGrid">
                 <!-- Products will be injected here by JS -->
+            </div>
+
+            <div class="load-more-container" id="loadMoreContainer"
+                style="display: none; text-align: center; margin-top: 2rem;">
+                <button id="loadMoreBtn" class="btn-primary">Muat Lebih Banyak</button>
             </div>
         </main>
 
@@ -241,6 +248,8 @@
             </div>
         </section>
 
+
+
         <!-- Footer -->
         <footer>
             <div class="footer-content">
@@ -275,8 +284,13 @@
             </div>
 
             <div class="footer-bottom">
-                <div class="copyright">
-                    &copy; 2026 Baz-On Store. All rights reserved.
+                <div class="footer-bottom-content">
+                    <p class="copyright">&copy; 2026 Baz-On Store. All rights reserved.</p>
+                    <div class="divider-vertical"></div>
+                    <p class="credit">
+                        Made with <i class="fa-solid fa-heart heart-icon"></i> by <a href="https://ednasalam.com"
+                            target="_blank" class="credit-link">ednasalam.com</a>
+                    </p>
                 </div>
                 <div class="payment-icons">
                     <i class="fa-brands fa-cc-visa"></i>

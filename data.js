@@ -127,6 +127,79 @@ const products = [
             sizes: ["28", "30", "32", "34", "36"],
             colors: ["Khaki", "Navy", "Black"]
         }
+    },
+    {
+        id: 7,
+        name: "Jasa Bungkus Kado Premium",
+        price: 25000,
+        category: "Services",
+        image: "images/gift-wrap.png",
+        description: "Layanan bungkus kado eksklusif dengan kertas premium dan pita.",
+        rating: 5.0,
+        reviews: 215,
+        stock: 999, // Unlimited for services
+        specs: ["Paper: Premium Art Paper", "Ribbon: Satin / Grosgrain", "Card: Free Greeting Card"],
+        variants: {
+            colors: ["Classic Red", "Midnight Blue", "Elegant Gold", "Rustic Brown"]
+        }
+    },
+    {
+        id: 8,
+        name: "Jasa Cuci Sepatu Deep Clean",
+        price: 45000,
+        category: "Services",
+        image: "images/shoe-clean.png",
+        description: "Perawatan cuci sepatu mendalam untuk semua jenis bahan (Canvas, Suede, Leather).",
+        rating: 4.8,
+        reviews: 89,
+        stock: 999,
+        specs: ["Method: Deep Clean", "Duration: 3 Days", "Protection: Anti-Bacterial Spray"],
+        variants: {
+            // Using 'size' key for compatibility, but values are objects now
+            sizes: [
+                { name: "Fast Clean (24 Jam)", price: 45000 },
+                { name: "Deep Clean (3 Hari)", price: 60000 },
+                { name: "Uyellowing", price: 75000 }
+            ]
+        }
+    },
+    {
+        id: 9,
+        name: "Lapis Legit Premium",
+        price: 150000,
+        category: "Cakes",
+        image: "images/lapis-legit.png",
+        description: "Kue lapis legit khas Indonesia dengan rasa butter yang kaya dan tekstur lembut.",
+        rating: 4.9,
+        reviews: 58,
+        stock: 20,
+        specs: ["Ingredients: Premium Butter, Eggs, Spice", "Storage: Keep Chilled", "Shelf Life: 2 Weeks"],
+        variants: {
+            sizes: [
+                { name: "Half Loyang", price: 150000 },
+                { name: "Full Loyang", price: 280000 }
+            ],
+            flavors: ["Original", "Prune", "Cheese"]
+        }
+    },
+    {
+        id: 10,
+        name: "Birthday Cake Custom",
+        price: 200000,
+        category: "Cakes",
+        image: "images/red-velvet.png",
+        description: "Kue ulang tahun custom dengan dasar Red Velvet atau pilihan lain.",
+        rating: 4.7,
+        reviews: 34,
+        stock: 50,
+        specs: ["Base: Soft Sponge", "Cream: Cream Cheese", "Includes: Candles & Knife"],
+        variants: {
+            sizes: [
+                { name: "Diameter 15cm", price: 200000 },
+                { name: "Diameter 22cm", price: 350000 }
+            ],
+            flavors: ["Red Velvet", "Double Chocolate", "Vanilla Bean"]
+        }
     }
 ];
 

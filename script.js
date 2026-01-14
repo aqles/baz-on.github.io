@@ -118,8 +118,49 @@ const formatPrice = (price) => {
     }).format(price);
 };
 
+function saveCart() {
+    localStorage.setItem('bazon_cart', JSON.stringify(cart));
+    cartCountElement.textContent = cart.reduce((total, item) => total + item.quantity, 0);
+}
+
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+
+    document.body.appendChild(toast);
+
+    // Trigger animation
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 100);
+
+    // Remove
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 300);
+    }, 3000);
+}
+
+// Load More Logic
+let currentProductLimit = config.maxProducts || 8;
+const loadMoreContainer = document.getElementById('loadMoreContainer');
+const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', () => {
+        currentProductLimit += 4; // Load 4 more
+        renderProducts(activeCategory, searchInput ? searchInput.value : '');
+    });
+}
+
 // Render Functions
 function renderProducts(category = 'all', searchTerm = '') {
+    // Keep track of active category for Load More
+    activeCategory = category;
+
     let filteredProducts = [...products]; // Create copy
 
     // Filter by Category
@@ -151,9 +192,21 @@ function renderProducts(category = 'all', searchTerm = '') {
         }
     }
 
-    // Limit Products (if configured and not searching/filtering specific things usually, but let's apply everywhere as requested or maybe just "homepage")
-    if ((category === 'all' && !searchTerm) && config.maxProducts && config.maxProducts > 0) {
-        filteredProducts = filteredProducts.slice(0, config.maxProducts);
+    const totalFiltered = filteredProducts.length;
+
+    // Limit Products (apply limit only if we are in 'all' or specific categories where pagination is desired)
+    // We apply pagination generally now if limit > 0
+    if (currentProductLimit > 0) {
+        filteredProducts = filteredProducts.slice(0, currentProductLimit);
+    }
+
+    // Manage Load More Button Visibility
+    if (loadMoreContainer) {
+        if (filteredProducts.length < totalFiltered) {
+            loadMoreContainer.style.display = 'block';
+        } else {
+            loadMoreContainer.style.display = 'none';
+        }
     }
 
     productGrid.innerHTML = filteredProducts.map(product => {
@@ -220,11 +273,10 @@ function renderCart() {
         return;
     }
 
-    let total = 0;
+    // Render Items
     cartItemsContainer.innerHTML = cart.map(item => {
         const product = products.find(p => p.id === item.id);
-        const itemTotal = product.price * item.quantity;
-        total += itemTotal;
+        const currentPrice = item.price || product.price;
 
         // Variant Text
         let variantText = '';
@@ -232,6 +284,7 @@ function renderCart() {
             const parts = [];
             if (item.variants.size) parts.push(`Size: ${item.variants.size}`);
             if (item.variants.color) parts.push(`Color: ${item.variants.color}`);
+            if (item.variants.flavor) parts.push(`Rasa: ${item.variants.flavor}`);
             variantText = parts.length > 0 ? `<div class="cart-variant-info">${parts.join(', ')}</div>` : '';
         }
 
@@ -244,7 +297,7 @@ function renderCart() {
                 <div class="cart-item-details">
                     <div class="cart-item-title">${product.name}</div>
                     ${variantText}
-                    <div class="cart-item-price">${formatPrice(product.price)}</div>
+                    <div class="cart-item-price">${formatPrice(currentPrice)}</div>
                     <div class="cart-item-controls">
                         <div class="quantity-controls">
                             <button class="btn-qty" onclick="updateQuantity('${cartItemId}', -1)"><i class="fa-solid fa-minus"></i></button>
@@ -258,7 +311,13 @@ function renderCart() {
         `;
     }).join('');
 
-    // Calculate Totals ... (Same as before)
+    // Calculate Totals using stored price or product price
+    let total = cart.reduce((sum, item) => {
+        const product = products.find(p => p.id === item.id);
+        const price = item.price || product.price;
+        return sum + (price * item.quantity);
+    }, 0);
+
     let discountAmount = 0;
     if (activeCoupon) {
         if (activeCoupon.type === 'percent') {
@@ -288,7 +347,7 @@ function renderCart() {
         </div>
     `;
 
-    // Manage Coupon UI State ... (Same as before)
+    // Manage Coupon UI State
     if (activeCoupon) {
         couponInput.value = activeCoupon.code;
         couponInput.disabled = true;
@@ -317,7 +376,8 @@ window.addToCart = (productId, fromModal = false) => {
     let cartItem = {
         id: productId,
         quantity: 1,
-        variants: fromModal ? { ...currentVariant } : {}
+        variants: fromModal ? { ...currentVariant } : {},
+        price: (fromModal && currentVariant.selectedPrice) ? currentVariant.selectedPrice : product.price
     };
 
     // Generate a unique ID for the cart item based on product ID + variants
@@ -504,18 +564,23 @@ window.openProductModal = (id) => {
     variantsContainer.innerHTML = ''; // Clear previous
 
     if (product.variants) {
-        // Sizes
+        // Sizes (or Types)
         if (product.variants.sizes && product.variants.sizes.length > 0) {
             const sizeGroup = document.createElement('div');
             sizeGroup.className = 'variant-group';
             sizeGroup.innerHTML = `
-                <span class="variant-label">Ukuran:</span>
+                <span class="variant-label">Ukuran / Tipe:</span>
                 <div class="variant-options" id="sizeOptions">
-                    ${product.variants.sizes.map(size => `<button class="variant-btn" onclick="selectVariant('size', '${size}', this)">${size}</button>`).join('')}
+                    ${product.variants.sizes.map(size => {
+                const isObject = typeof size === 'object';
+                const val = isObject ? size.name : size;
+                const price = isObject ? size.price : null;
+                const priceAttr = price ? `, ${price}` : '';
+                return `<button class="variant-btn" onclick="selectVariant('size', '${val}', this${priceAttr})">${val}</button>`;
+            }).join('')}
                 </div>
              `;
             variantsContainer.appendChild(sizeGroup);
-            // Auto select first? No, force user to pick
         }
 
         // Colors
@@ -525,10 +590,35 @@ window.openProductModal = (id) => {
             colorGroup.innerHTML = `
                 <span class="variant-label">Warna:</span>
                 <div class="variant-options" id="colorOptions">
-                    ${product.variants.colors.map(color => `<button class="variant-btn" onclick="selectVariant('color', '${color}', this)">${color}</button>`).join('')}
+                    ${product.variants.colors.map(color => {
+                const isObject = typeof color === 'object';
+                const val = isObject ? color.name : color;
+                const price = isObject ? color.price : null;
+                const priceAttr = price ? `, ${price}` : '';
+                return `<button class="variant-btn" onclick="selectVariant('color', '${val}', this${priceAttr})">${val}</button>`;
+            }).join('')}
                 </div>
              `;
             variantsContainer.appendChild(colorGroup);
+        }
+
+        // Flavors
+        if (product.variants.flavors && product.variants.flavors.length > 0) {
+            const flavorGroup = document.createElement('div');
+            flavorGroup.className = 'variant-group';
+            flavorGroup.innerHTML = `
+                <span class="variant-label">Rasa:</span>
+                <div class="variant-options" id="flavorOptions">
+                    ${product.variants.flavors.map(flavor => {
+                const isObject = typeof flavor === 'object';
+                const val = isObject ? flavor.name : flavor;
+                const price = isObject ? flavor.price : null;
+                const priceAttr = price ? `, ${price}` : '';
+                return `<button class="variant-btn" onclick="selectVariant('flavor', '${val}', this${priceAttr})">${val}</button>`;
+            }).join('')}
+                </div>
+             `;
+            variantsContainer.appendChild(flavorGroup);
         }
     }
 
@@ -551,6 +641,10 @@ window.openProductModal = (id) => {
             }
             if (product.variants.colors && !currentVariant.color) {
                 showToast('Pilih warna terlebih dahulu!', 'error');
+                return;
+            }
+            if (product.variants.flavors && !currentVariant.flavor) {
+                showToast('Pilih rasa terlebih dahulu!', 'error');
                 return;
             }
         }
@@ -581,9 +675,14 @@ window.openProductModal = (id) => {
 
 
 // Variant Selection Helper
-window.selectVariant = (type, value, btnElement) => {
+window.selectVariant = (type, value, btnElement, price = null) => {
     // Update State
     currentVariant[type] = value;
+    if (price) {
+        currentVariant.selectedPrice = price;
+        // Update Modal Price display
+        modalProductPrice.textContent = formatPrice(price);
+    }
 
     // Update UI
     // Find parent group and remove active from all siblings
@@ -640,12 +739,14 @@ filterBtns.forEach(btn => {
 
         // Filter
         activeCategory = btn.dataset.category;
+        currentProductLimit = config.maxProducts || 8; // Reset Pagination
         renderProducts(activeCategory, searchInput.value);
     });
 });
 
 // Search Listener
 searchInput.addEventListener('input', (e) => {
+    currentProductLimit = config.maxProducts || 8; // Reset Pagination
     renderProducts(activeCategory, e.target.value);
 });
 
