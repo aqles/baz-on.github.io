@@ -798,5 +798,29 @@ function initFlashSale() {
     };
 
     updateTimer(); // Initial call
-    setInterval(updateTimer, 1000);
+    setInterval(updateTimer, 1000); // 1 second interval
+}
+
+// Newsletter Logic
+const newsletterForm = document.getElementById('newsletterForm');
+if (newsletterForm) {
+    newsletterForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const emailInput = document.getElementById('newsletterEmail');
+        const email = emailInput.value;
+
+        if (email) {
+            // Save to localStorage (Mock Database)
+            const subscribers = JSON.parse(localStorage.getItem('bazon_subscribers')) || [];
+
+            if (subscribers.includes(email)) {
+                showToast('Email ini sudah terdaftar!', 'error');
+            } else {
+                subscribers.push(email);
+                localStorage.setItem('bazon_subscribers', JSON.stringify(subscribers));
+                showToast('Terima kasih telah berlangganan!', 'success');
+                emailInput.value = ''; // Reset
+            }
+        }
+    });
 }

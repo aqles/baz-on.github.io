@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Halaman Tidak Ditemukan | Baz-On Store</title>
+    <meta name="description" content="Halaman yang Anda cari tidak ditemukan.">
+    <meta name="robots" content="noindex, follow">
+
+    <link rel="icon" type="image/svg+xml" href="logo.svg?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .error-page-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+            padding: 20px;
+            padding-top: 100px;
+            /* Offset for fixed navbar */
+        }
+
+        .error-code {
+            font-size: 8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        .error-message {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .error-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <a href="index.html" style="text-decoration: none;">
+                    <div class="logo">
+                        <img src="logo.svg" alt="Baz-On Logo" class="logo-img"> Baz-On
+                    </div>
+                </a>
+                <div class="nav-icons">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                    <a href="index.html" class="cart-icon-wrapper" style="color: var(--text-primary);">
+                        <i class="fa-solid fa-home"></i>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 404 Content -->
+        <main class="error-page-container">
+            <h1 class="error-code">404</h1>
+            <h2 class="error-message">Halaman Tidak Ditemukan</h2>
+            <p class="error-description">Maaf, halaman yang Anda tuju mungkin sudah dihapus, diubah namanya, atau sedang
+                tidak tersedia untuk sementara waktu.</p>
+            <a href="index.html" class="btn-primary"><i class="fa-solid fa-home"></i> Kembali ke Beranda</a>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Baz-On</h3>
+                    <p>Platform belanja modern dengan pilihan fashion dan gadget premium. Temukan gaya terbaik Anda
+                        bersama kami.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Tautan</h4>
+                    <a href="index.html#products">Produk</a>
+                    <a href="terms.html">Syarat & Ketentuan</a>
+                    <a href="contact.html">Hubungi Kami</a>
+                </div>
+
+                <div class="footer-newsletter">
+                    <h4>Berlangganan</h4>
+                    <p>Dapatkan info promo spesial!</p>
+                    <form id="newsletterForm" class="newsletter-form">
+                        <input type="email" id="newsletterEmail" name="email" placeholder="Email Anda..." required
+                            aria-label="Alamat Email Newsletter">
+                        <button type="submit" aria-label="Kirim Newsletter"><i
+                                class="fa-solid fa-paper-plane"></i></button>
+                    </form>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2026 Baz-On Store. All rights reserved.
+                </div>
+                <div class="payment-icons">
+                    <i class="fa-brands fa-cc-visa"></i>
+                    <i class="fa-brands fa-cc-mastercard"></i>
+                    <i class="fa-brands fa-cc-paypal"></i>
+                    <i class="fa-solid fa-building-columns"></i>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Minimal Script to handle theme toggle if possible, or just link main script but some elements might be missing causing errors -->
+    <script>
+        // Simple Theme Toggle Logic repeated here to avoid errors from missing home page elements in script.js
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const icon = themeToggle.querySelector('i');
+
+        // Check local storage
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+            body.setAttribute('data-theme', currentTheme);
+            if (currentTheme === 'light') {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (body.getAttribute('data-theme') === 'light') {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            } else {
+                body.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        });
+    </script>
+</body>
+
+</html>
