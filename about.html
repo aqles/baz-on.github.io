@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami | Baz-On Store</title>
+    <meta name="description"
+        content="Tentang Baz-On Store, platform belanja modern dengan pilihan fashion dan gadget premium.">
+
+    <!-- CSS (Reuse existing styles) -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="logo.svg?v=2">
+
+    <!-- PWA Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    }, err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
+
+    <style>
+        .about-header {
+            text-align: center;
+            padding: 120px 20px 60px;
+            background: linear-gradient(to bottom, var(--bg-color), var(--card-bg));
+            margin-top: 60px;
+            /* Offset for fixed navbar */
+        }
+
+        .about-header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .about-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .about-section {
+            margin-bottom: 60px;
+            animation: fadeIn 0.8s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .about-section:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .about-section:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .about-text {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .team-card {
+            background: var(--card-bg);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 2px solid var(--accent);
+        }
+
+        .team-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .team-role {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Navigation (Synced with index.html) -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <a href="index.html" class="logo">
+                    <img src="logo.svg" alt="Baz-On Logo" class="logo-img"> Baz-On
+                </a>
+                <div class="nav-icons">
+                    <!-- Language Toggle -->
+                    <button id="langToggle" aria-label="Toggle Language">
+                        ID
+                    </button>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                    <div class="cart-icon-wrapper" id="cartBtn">
+                        <i class="fa-solid fa-shopping-bag"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <header class="about-header">
+            <h1 class="gradient-text">Tentang Baz-On</h1>
+            <p style="font-size: 1.2rem; color: var(--text-secondary);">Membangun pengalaman belanja masa depan, hari
+                ini.</p>
+        </header>
+
+        <main class="about-content">
+            <section class="about-section">
+                <h2 style="font-size: 2rem; margin-bottom: 20px; color: var(--text-primary);">Cerita Kami</h2>
+                <p class="about-text">
+                    Baz-On Store didirikan pada tahun 2026 dengan satu visi sederhana: membuat belanja barang premium
+                    menjadi mudah, aman, dan personal. Kami percaya bahwa setiap produk memiliki cerita, dan setiap
+                    pelanggan layak mendapatkan pelayanan terbaik.
+                </p>
+                <p class="about-text">
+                    Berawal dari toko kecil, kami kini telah berkembang menjadi platform yang melayani ribuan pelanggan
+                    setia. Fokus kami bukan hanya pada penjualan, tetapi pada membangun komunitas yang menghargai
+                    kualitas dan gaya hidup modern.
+                </p>
+            </section>
+
+            <section class="about-section">
+                <h2 style="font-size: 2rem; margin-bottom: 20px; color: var(--text-primary);">Kenapa Baz-On?</h2>
+                <div class="about-grid">
+                    <div class="feature-card">
+                        <i class="fa-solid fa-gem"
+                            style="font-size: 2rem; color: var(--accent); margin-bottom: 15px;"></i>
+                        <h3 style="margin-bottom: 10px;">Kualitas Tercurasi</h3>
+                        <p style="color: var(--text-secondary);">Setiap produk melalui proses seleksi ketat untuk
+                            memastikan hanya yang terbaik yang sampai ke tangan Anda.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fa-solid fa-user-shield"
+                            style="font-size: 2rem; color: var(--accent); margin-bottom: 15px;"></i>
+                        <h3 style="margin-bottom: 10px;">Aman & Terpercaya</h3>
+                        <p style="color: var(--text-secondary);">Privasi dan keamanan transaksi Anda adalah prioritas
+                            utama kami dengan sistem enkripsi modern.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fa-solid fa-heart"
+                            style="font-size: 2rem; color: var(--accent); margin-bottom: 15px;"></i>
+                        <h3 style="margin-bottom: 10px;">Pelayanan Personal</h3>
+                        <p style="color: var(--text-secondary);">Kami melayani dengan hati, dengan integrasi WhatsApp
+                            untuk komunikasi yang lebih dekat.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="about-section">
+                <h2 style="font-size: 2rem; margin-bottom: 20px; color: var(--text-primary);">Tim Kami</h2>
+                <div class="about-grid">
+                    <div class="team-card">
+                        <div class="team-avatar"
+                            style="background: var(--surface-border); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fa-solid fa-user" style="font-size: 2rem; color: var(--text-secondary);"></i>
+                        </div>
+                        <h3 class="team-name">Aqles</h3>
+                        <p class="team-role">Founder & CEO</p>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-avatar"
+                            style="background: var(--surface-border); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fa-solid fa-code" style="font-size: 2rem; color: var(--text-secondary);"></i>
+                        </div>
+                        <h3 class="team-name">Dev Team</h3>
+                        <p class="team-role">Technology</p>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-avatar"
+                            style="background: var(--surface-border); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fa-solid fa-headset" style="font-size: 2rem; color: var(--text-secondary);"></i>
+                        </div>
+                        <h3 class="team-name">Support</h3>
+                        <p class="team-role">Customer Success</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer (Synced with index.html) -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Baz-On</h3>
+                    <p data-i18n="footer.about">Platform belanja modern dengan pilihan fashion dan gadget premium.
+                        Temukan gaya terbaik Anda
+                        bersama kami.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4 data-i18n="footer.links_title">Tautan</h4>
+                    <a href="about.html" data-i18n="footer.links.about_us">Tentang Kami</a>
+                    <a href="terms.html" data-i18n="footer.links.terms">Syarat & Ketentuan</a>
+                    <a href="contact.html" data-i18n="footer.links.contact">Hubungi Kami</a>
+                    <a href="install.html" data-i18n="footer.links.install">Cara Install</a>
+                </div>
+
+                <div class="footer-newsletter">
+                    <h4 data-i18n="footer.newsletter_title">Berlangganan</h4>
+                    <p data-i18n="footer.newsletter_desc">Dapatkan info promo spesial!</p>
+                    <form id="newsletterForm" class="newsletter-form">
+                        <input type="email" id="newsletterEmail" name="email" placeholder="Email Anda..." required
+                            aria-label="Alamat Email Newsletter" data-i18n-placeholder="footer.email_placeholder">
+                        <button type="submit" aria-label="Kirim Newsletter"><i
+                                class="fa-solid fa-paper-plane"></i></button>
+                    </form>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="copyright" data-i18n="footer.copyright">&copy; 2026 Baz-On Store. All rights reserved.
+                    </p>
+                    <div class="divider-vertical"></div>
+                    <p class="credit">
+                        <span data-i18n="footer.made_with">Made with</span> <i class="fa-solid fa-heart heart-icon"></i>
+                        by <a href="https://ednasalam.com" target="_blank" class="credit-link">ednasalam.com</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data.js"></script>
+    <script src="translations.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

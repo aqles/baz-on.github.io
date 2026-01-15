@@ -66,9 +66,10 @@ const translations = {
             about: "Platform belanja modern dengan pilihan fashion dan gadget premium. Temukan gaya terbaik Anda bersama kami.",
             links_title: "Tautan",
             links: {
-                products: "Produk",
+                about_us: "Tentang Kami",
                 terms: "Syarat & Ketentuan",
-                contact: "Hubungi Kami"
+                contact: "Hubungi Kami",
+                install: "Cara Install"
             },
             newsletter_title: "Berlangganan",
             newsletter_desc: "Dapatkan info promo spesial!",
@@ -188,9 +189,11 @@ const translations = {
             about: "Modern shopping platform with premium fashion and gadget choices. Find your best style with us.",
             links_title: "Links",
             links: {
+                about_us: "About Us",
                 products: "Products",
                 terms: "Terms & Conditions",
-                contact: "Contact Us"
+                contact: "Contact Us",
+                install: "How to Install"
             },
             newsletter_title: "Subscribe",
             newsletter_desc: "Get special promo info!",
