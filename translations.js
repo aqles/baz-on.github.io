@@ -73,7 +73,7 @@ const translations = {
             newsletter_title: "Berlangganan",
             newsletter_desc: "Dapatkan info promo spesial!",
             email_placeholder: "Email Anda...",
-            copyright: "&copy; 2026 Baz-On Store. All rights reserved.",
+            copyright: "© 2026 Baz-On Store. All rights reserved.",
             made_with: "Made with"
         },
         modal: {
@@ -195,7 +195,7 @@ const translations = {
             newsletter_title: "Subscribe",
             newsletter_desc: "Get special promo info!",
             email_placeholder: "Your Email...",
-            copyright: "&copy; 2026 Baz-On Store. All rights reserved.",
+            copyright: "© 2026 Baz-On Store. All rights reserved.",
             made_with: "Made with"
         },
         modal: {

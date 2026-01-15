@@ -926,7 +926,68 @@ function updateThemeIcon(icon, theme) {
 
 // --- Logika Install PWA ---
 let deferredPrompt;
-const installBtn = document.getElementById('installBtn');
+
+// Fungsi untuk menampilkan Alert Install
+function showInstallAlert() {
+    // Cek jika sudah pernah di-close sebelumnya (opsional, saat ini kita tampilkan terus jika bisa install)
+    // if (localStorage.getItem('bazon_install_dismissed')) return;
+
+    // Create Element
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'install-alert';
+    alertDiv.innerHTML = `
+        <div class="install-alert-content">
+            <i class="fa-solid fa-download"></i>
+            <span>Install Aplikasi Baz-On untuk pengalaman lebih baik!</span>
+        </div>
+        <div class="install-alert-actions">
+            <button id="alertInstallBtn" class="btn-primary-sm">Install</button>
+            <button id="alertCloseBtn" class="btn-text">Nanti</button>
+        </div>
+    `;
+
+    document.body.appendChild(alertDiv);
+
+    // Trigger Animation
+    setTimeout(() => {
+        alertDiv.classList.add('show');
+    }, 100);
+
+    // Event Listeners
+    const installBtn = document.getElementById('alertInstallBtn');
+    const closeBtn = document.getElementById('alertCloseBtn');
+
+    if (installBtn) {
+        installBtn.addEventListener('click', () => {
+            // Hide the app provided install promotion
+            alertDiv.classList.remove('show');
+            setTimeout(() => { alertDiv.remove(); }, 400);
+
+            // Show the install prompt
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the A2HS prompt');
+                    } else {
+                        console.log('User dismissed the A2HS prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        });
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            alertDiv.classList.remove('show');
+            setTimeout(() => { alertDiv.remove(); }, 400);
+            // Opsional: Simpan state bahwa usernya menolak sementara
+            // localStorage.setItem('bazon_install_dismissed', 'true');
+        });
+    }
+}
 
 window.addEventListener('beforeinstallprompt', (e) => {
     // Prevent Chrome 67 and earlier from automatically showing the prompt
@@ -934,32 +995,12 @@ window.addEventListener('beforeinstallprompt', (e) => {
     // Stash the event so it can be triggered later.
     deferredPrompt = e;
     // Update UI to notify the user they can add to home screen
-    if (installBtn) installBtn.classList.remove('hidden');
+    showInstallAlert();
 });
-
-if (installBtn) {
-    installBtn.addEventListener('click', (e) => {
-        // Hide the app provided install promotion
-        installBtn.classList.add('hidden');
-        // Show the install prompt
-        deferredPrompt.prompt();
-        // Wait for the user to respond to the prompt
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the A2HS prompt');
-            } else {
-                console.log('User dismissed the A2HS prompt');
-            }
-            deferredPrompt = null;
-        });
-    });
-}
 
 window.addEventListener('appinstalled', () => {
     // Log install to analytics
     console.log('PWA was installed', 'appinstalled');
-    // Hide button if visible
-    if (installBtn) installBtn.classList.add('hidden');
 });
 
 // Scroll to Top Logic

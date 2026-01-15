@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cara Install Aplikasi Baz-On Store</title>
+    <meta name="description" content="Panduan mudah menginstall aplikasi Baz-On Store di Android, iOS, dan Desktop.">
+    <meta name="robots" content="index, follow">
+
+    <!-- CSS (Reuse existing styles) -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="logo.svg?v=2">
+
+    <style>
+        .install-guide-container {
+            max-width: 800px;
+            margin: 100px auto 40px;
+            /* Offset for fixed navbar */
+            padding: 20px;
+        }
+
+        .guide-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+
+        .guide-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .guide-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--surface-border);
+            padding-bottom: 15px;
+        }
+
+        .guide-icon {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+
+        .guide-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .step-list {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .step-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+
+        .step-item::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 25px;
+            height: 25px;
+            background: var(--accent);
+            color: var(--bg-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        .note {
+            background: rgba(56, 189, 248, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar (Simplified) -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="index.html" class="logo">
+                <img src="logo.svg" alt="Baz-On Logo" class="logo-img"> Baz-On
+            </a>
+            <div class="nav-icons">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="install-guide-container">
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda</a>
+
+        <div class="section-header" style="text-align: left; margin-bottom: 40px;">
+            <h1 class="gradient-text">Panduan Install Aplikasi</h1>
+            <p style="color: var(--text-secondary);">Nikmati pengalaman belanja terbaik dengan menginstall aplikasi
+                Baz-On Store langsung ke perangkat Anda.</p>
+        </div>
+
+        <!-- Android Guide -->
+        <div class="guide-card">
+            <div class="guide-header">
+                <i class="fa-brands fa-android guide-icon"></i>
+                <h2 class="guide-title">Android (Chrome/Edge)</h2>
+            </div>
+            <ol class="step-list">
+                <li class="step-item">Buka <strong>Baz-On Store</strong> di Google Chrome.</li>
+                <li class="step-item">Tunggu muncul notifikasi "Install App" di bagian bawah layar, atau klik ikon titik
+                    tiga (Menu) di pojok kanan atas.</li>
+                <li class="step-item">Pilih menu <strong>"Install app"</strong> atau <strong>"Tambahkan ke Layar
+                        Utama"</strong>.</li>
+                <li class="step-item">Konfirmasi dengan menekan tombol <strong>Install</strong>.</li>
+            </ol>
+        </div>
+
+        <!-- iOS Guide -->
+        <div class="guide-card">
+            <div class="guide-header">
+                <i class="fa-brands fa-apple guide-icon"></i>
+                <h2 class="guide-title">iOS (iPhone/iPad)</h2>
+            </div>
+            <ol class="step-list">
+                <li class="step-item">Buka <strong>Baz-On Store</strong> di Safari.</li>
+                <li class="step-item">Ketuk tombol <strong>Share</strong> (ikon kotak dengan panah ke atas) di menu
+                    bawah.</li>
+                <li class="step-item">Gulir ke bawah dan pilih <strong>"Add to Home Screen"</strong> (Tambah ke Layar
+                    Utama).</li>
+                <li class="step-item">Ketuk <strong>Add</strong> di pojok kanan atas.</li>
+            </ol>
+            <div class="note">
+                <i class="fa-solid fa-info-circle"></i> Catatan: Fitur ini hanya tersedia di browser Safari.
+            </div>
+        </div>
+
+        <!-- Desktop Guide -->
+        <div class="guide-card">
+            <div class="guide-header">
+                <i class="fa-solid fa-desktop guide-icon"></i>
+                <h2 class="guide-title">Desktop (PC/Laptop)</h2>
+            </div>
+            <ol class="step-list">
+                <li class="step-item">Buka <strong>Baz-On Store</strong> di Chrome atau Edge.</li>
+                <li class="step-item">Klik ikon <strong>Install</strong> (biasanya berupa tanda tambah atau monitor
+                    kecil) di sebelah kanan kolom URL (Address Bar).</li>
+                <li class="step-item">Klik tombol <strong>Install</strong> pada pop-up yang muncul.</li>
+            </ol>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p class="copyright">&copy; 2026 Baz-On Store. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        // Simple Theme Logic for this specific page (syncs with main script via localStorage)
+        const themeToggle = document.getElementById('themeToggle');
+        const icon = themeToggle.querySelector('i');
+        const savedTheme = localStorage.getItem('bazon_theme') || 'dark';
+
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(icon, savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('bazon_theme', newTheme);
+            updateThemeIcon(icon, newTheme);
+        });
+
+        function updateThemeIcon(icon, theme) {
+            if (theme === 'light') {
+                icon.className = 'fa-solid fa-sun';
+            } else {
+                icon.className = 'fa-solid fa-moon';
+            }
+        }
+    </script>
+</body>
+
+</html>

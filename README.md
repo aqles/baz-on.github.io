@@ -39,7 +39,8 @@ The core philosophy of this project is **simplicity meets elegance**. It bridges
     *   **Product Badges**: "Best Seller" and "Limited Stock" labels to guide user attention.
     *   **Social Sharing**: Integrated share buttons (WhatsApp, Twitter, Copy Link) in product details.
 *   **Progressive Web App (PWA)**:
-    *   **Installable**: Works as a native app on mobile and desktop.
+    *   **Smart Installation**: Custom install alert toast notifies users when the app can be installed.
+    *   **Installation Guide**: Dedicated guide (`install.html`) for Android, iOS, and Desktop users.
     *   **Offline Mode**: Browse key pages even without an internet connection.
 *   **Dual Language Support (ID/EN)**:
     *   **Language Toggle**: Switch seamlessly between Indonesian and English.

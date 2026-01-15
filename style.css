@@ -2765,6 +2765,197 @@ footer {
     font-weight: 600;
 }
 
+.variant-group {
+    margin-bottom: 15px;
+}
+
+.variant-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.variant-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.variant-btn {
+    padding: 6px 14px;
+    border: 1px solid var(--surface-border);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.variant-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.variant-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    font-weight: 500;
+}
+
+/* Address Checkbox */
+.save-address-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.save-address-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Modal Close Button Animation */
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 10;
+}
+
+
+/* Search, Sort & Filter Controls */
+.controls-wrapper {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.search-container {
+    flex: 1;
+    min-width: 250px;
+}
+
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+.search-wrapper input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    background: var(--card-bg);
+    border: 1px solid var(--surface-border);
+    border-radius: 50px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+
+.search-wrapper input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+    outline: none;
+}
+
+.sort-container {
+    flex-shrink: 0;
+}
+
+.sort-dropdown {
+    padding: 12px 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--surface-border);
+    border-radius: 50px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    cursor: pointer;
+    outline: none;
+    transition: var(--transition);
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+    padding-right: 45px;
+}
+
+.sort-dropdown:hover,
+.sort-dropdown:focus {
+    border-color: var(--accent);
+}
+
+.filter-container {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 15px;
+    /* Space for scrollbar */
+    margin-bottom: 30px;
+    scrollbar-width: thin;
+    /* Firefox */
+}
+
+.filter-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.filter-container::-webkit-scrollbar-thumb {
+    background: var(--surface-border);
+    border-radius: 3px;
+}
+
+.filter-btn {
+    padding: 8px 20px;
+    border: 1px solid var(--surface-border);
+    background: transparent;
+    color: var(--text-secondary);
+    border-radius: 50px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition);
+    font-size: 0.9rem;
+}
+
+.filter-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}
+
+.filter-btn.active {
+    background: var(--accent);
+    color: var(--bg-color);
+    border-color: var(--accent);
+    font-weight: 600;
+}
+
 @media (max-width: 600px) {
     .controls-wrapper {
         flex-direction: column;
@@ -2774,4 +2965,78 @@ footer {
     .sort-dropdown {
         width: 100%;
     }
+}
+
+/* Install Alert Toast */
+.install-alert {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--card-bg);
+    border: 1px solid var(--accent);
+    padding: 15px 20px;
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 300px;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.install-alert.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.install-alert-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.install-alert-content i {
+    color: var(--accent);
+    font-size: 1.2rem;
+}
+
+.install-alert-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-primary-sm {
+    background: var(--accent);
+    color: var(--bg-color);
+    border: none;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-primary-sm:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.btn-text {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 6px 12px;
+}
+
+.btn-text:hover {
+    color: var(--text-primary);
 }
